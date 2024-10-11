@@ -1,7 +1,7 @@
-import { FileReaderUtility } from './utils/file_reader.js';
-import { ExcelParser } from './utils/excel_parser.js';
-import { JSONFormatter } from './utils/json_formatter.js';
-import { DateTimeConverter } from './utils/date_time_converter.js';
+import { FileReaderUtility } from './file_reader.js';
+import { ExcelParser } from './excel_parser.js';
+import { JSONFormatter } from './json_formatter.js';
+import { DateTimeConverter } from './date_time_converter.js';
 
 export class ConvertToJSON {
     constructor(fileInputId, outputId, downloadLink1Id, downloadLink2Id) {
