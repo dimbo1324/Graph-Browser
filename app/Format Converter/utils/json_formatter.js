@@ -1,5 +1,5 @@
 
-export class JSONFormatter {
+export default class JSONFormatter {
     constructor(dateConverter) {
         this.dateConverter = dateConverter;
     }

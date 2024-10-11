@@ -1,4 +1,4 @@
-import { ConvertToJSON } from "../Format Converter/utils/main.js";
+import ConvertToJSON from "../Format Converter/utils/main.js";
 
 export default class Converter {
     #converter

@@ -1,4 +1,4 @@
-export class FileReaderUtility {
+export default class FileReaderUtility {
     constructor(inputElement) {
         this.fileInput = document.getElementById(inputElement);
     }

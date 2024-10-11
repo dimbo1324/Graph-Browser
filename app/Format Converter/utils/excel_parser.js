@@ -1,5 +1,5 @@
 
-export class ExcelParser {
+export default class ExcelParser {
     constructor(data) {
         this.workbook = XLSX.read(data, { type: 'array' });
     }

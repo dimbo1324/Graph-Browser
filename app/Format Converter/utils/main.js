@@ -1,9 +1,9 @@
-import { FileReaderUtility } from './file_reader.js';
-import { ExcelParser } from './excel_parser.js';
-import { JSONFormatter } from './json_formatter.js';
-import { DateTimeConverter } from './date_time_converter.js';
+import FileReaderUtility from './file_reader.js';
+import ExcelParser from './excel_parser.js';
+import JSONFormatter from './json_formatter.js';
+import DateTimeConverter from './date_time_converter.js';
 
-export class ConvertToJSON {
+export default class ConvertToJSON {
     #formattedData1 = [];
     #formattedData2 = [];
 

@@ -1,4 +1,4 @@
-export class DateTimeConverter {
+export default class DateTimeConverter {
     excelDateToJSDate(serial) {
         const excelStartDate = new Date(1899, 11, 30);
         const days = parseInt(serial, 10);
