@@ -2,21 +2,27 @@ import ConvertToJSON from "../Format Converter/utils/main.js";
 
 export default class Converter {
     #converter
-    constructor(callback, sheet1Data = [], sheet2Data = []) {
-        this.sheet1Data = sheet1Data;
-        this.sheet2Data = sheet2Data;
-        this.callback = callback;
+    constructor() {
         this.#converter = new ConvertToJSON('upload', 'output', 'downloadSheet1', 'downloadSheet2');
-        document.addEventListener('DOMContentLoaded', () => this.init());
+        [this.data1, this.data2] = this.#converter.getLists()
     }
 
-    init() {
+    getData() {
+        return [this.data1, this.data2]
+    }
+
+    getConverter() {
+        return this.#converter
+    }
+
+    buttonAction(fn) {
         document.getElementById('processFileButton').addEventListener('click', () => {
-            this.#converter.processFile((processedSheet1Data, processedSheet2Data) => {
-                this.sheet1Data = this.#converter.getList1()
-                this.sheet2Data = this.#converter.getList2()
-                this.callback(this.sheet1Data, this.sheet2Data);
-            });
+            if (typeof fn === 'function') {
+                fn();
+            }
+            else {
+                console.error('Переданный параметр не является функцией');
+            }
         });
     }
 }
