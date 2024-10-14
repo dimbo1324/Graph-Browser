@@ -5,7 +5,7 @@ export function createLineChart(data) {
     const chart = LineChart(data, {
         x: d => d.date,
         y: d => d.close,
-        yLabel: "↑ Daily close ($)",
+        yLabel: "Условные единицы",
         width: 500,
         height: 500,
         color: "steelblue"

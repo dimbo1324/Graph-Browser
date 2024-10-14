@@ -11,14 +11,6 @@ converter.init();
 const aapl = [
     { date: new Date("2023-01-01"), close: 1520 },
     { date: new Date("2023-01-02"), close: 155 },
-    // Добавьте больше данных по необходимости
 ];
-
-const width = 928; // Определите ширину
-const height = 600; // Определите высоту
-const basis = 100; // Определите базис, если он используется
-
-
-
-const chart = createLineChart(aapl);
-document.body.appendChild(chart);
+const chart = createLineChart(aapl)
+document.body.appendChild(chart)
