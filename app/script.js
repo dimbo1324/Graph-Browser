@@ -76,9 +76,45 @@ function LineChart(data, {
         .attr("stroke-opacity", strokeOpacity)
         .attr("d", line(I));
 
+    const circles = svg.append("g")
+        .selectAll("circle")
+        .data(I)
+        .join("circle")
+        .attr("cx", i => xScale(X[i]))
+        .attr("cy", i => yScale(Y[i]))
+        .attr("r", 3)
+        .attr("fill", color);
+
+    const linesX = svg.append("g")
+        .selectAll("line.x")
+        .data(I)
+        .join("line")
+        .attr("class", "x")
+        .attr("x1", i => xScale(X[i]))
+        .attr("x2", i => xScale(X[i]))
+        .attr("y1", i => yScale(Y[i]))
+        .attr("y2", height - marginBottom)
+        .attr("stroke", "gray")
+        .attr("stroke-dasharray", "4,4");
+
+    const linesY = svg.append("g")
+        .selectAll("line.y")
+        .data(I)
+        .join("line")
+        .attr("class", "y")
+        .attr("x1", marginLeft)
+        .attr("x2", i => xScale(X[i]))
+        .attr("y1", i => yScale(Y[i]))
+        .attr("y2", i => yScale(Y[i]))
+        .attr("stroke", "gray")
+        .attr("stroke-dasharray", "4,4");
+
     const zoom = d3.zoom()
-        .scaleExtent([1, 10]) // Минимальный и максимальный уровни масштабирования .translateExtent([[marginLeft, marginTop], [width - marginRight, height - marginBottom]])
-        .extent([[marginLeft, marginTop], [width - marginRight, height - marginBottom]])
+        .scaleExtent([1, 10])
+        .extent([
+            [marginLeft, marginTop],
+            [width - marginRight, height - marginBottom]
+        ])
         .on("zoom", zoomed);
 
     svg.call(zoom);
@@ -91,6 +127,19 @@ function LineChart(data, {
         gx.call(xAxis.scale(zx));
         gy.call(yAxis.scale(zy));
         path.attr("d", line.x(i => zx(X[i])).y(i => zy(Y[i])));
+
+        circles.attr("cx", i => zx(X[i]))
+            .attr("cy", i => zy(Y[i]));
+
+        linesX.attr("x1", i => zx(X[i]))
+            .attr("x2", i => zx(X[i]))
+            .attr("y1", i => zy(Y[i]))
+            .attr("y2", height - marginBottom);
+
+        linesY.attr("x1", marginLeft)
+            .attr("x2", i => zx(X[i]))
+            .attr("y1", i => zy(Y[i]))
+            .attr("y2", i => zy(Y[i]));
     }
 
     return svg.node();
@@ -104,15 +153,107 @@ function transformedData(obj) {
 }
 
 const data = [
-    { "x": "2024-07-31T21:01:00.719Z", "y": 3 },
-    { "x": "2024-08-01T02:11:59.738Z", "y": 5 },
-    { "x": "2024-08-01T02:12:05.142Z", "y": 56 },
-    { "x": "2024-08-01T02:14:03.857Z", "y": 12 },
-    { "x": "2024-08-01T02:14:09.259Z", "y": 19 },
-    { "x": "2024-08-01T02:14:14.666Z", "y": 1 },
-    { "x": "2024-08-01T02:14:20.064Z", "y": -12 },
-    { "x": "2024-08-01T02:15:03.233Z", "y": 5 },
-];
+    {
+        "x": "2024-07-31T21:01:00.719Z",
+        "y": 10518.47
+    },
+    {
+        "x": "2024-07-31T21:11:01.707Z",
+        "y": 10518.69
+    },
+    {
+        "x": "2024-07-31T21:11:12.510Z",
+        "y": 10518.47
+    },
+    {
+        "x": "2024-07-31T21:11:39.484Z",
+        "y": 10518.69
+    },
+    {
+        "x": "2024-07-31T21:11:44.884Z",
+        "y": 10518.47
+    },
+    {
+        "x": "2024-07-31T21:12:06.460Z",
+        "y": 10518.69
+    },
+    {
+        "x": "2024-07-31T21:12:22.641Z",
+        "y": 10518.47
+    },
+    {
+        "x": "2024-07-31T21:12:38.852Z",
+        "y": 10518.69
+    },
+    {
+        "x": "2024-07-31T21:12:49.637Z",
+        "y": 10518.47
+    },
+    {
+        "x": "2024-07-31T21:13:00.427Z",
+        "y": 10518.69
+    },
+    {
+        "x": "2024-07-31T21:24:52.814Z",
+        "y": 10518.9
+    },
+    {
+        "x": "2024-07-31T21:24:58.222Z",
+        "y": 10518.69
+    },
+    {
+        "x": "2024-07-31T21:25:41.416Z",
+        "y": 10518.9
+    },
+    {
+        "x": "2024-07-31T21:25:46.802Z",
+        "y": 10518.69
+    },
+    {
+        "x": "2024-07-31T21:26:02.992Z",
+        "y": 10518.9
+    },
+    {
+        "x": "2024-07-31T21:26:08.396Z",
+        "y": 10518.69
+    },
+    {
+        "x": "2024-07-31T21:26:29.984Z",
+        "y": 10518.9
+    },
+    {
+        "x": "2024-07-31T21:42:57.906Z",
+        "y": 10519.11
+    },
+    {
+        "x": "2024-07-31T21:43:03.301Z",
+        "y": 10518.9
+    },
+    {
+        "x": "2024-07-31T21:46:34.168Z",
+        "y": 10519.11
+    },
+    {
+        "x": "2024-07-31T21:46:44.950Z",
+        "y": 10518.9
+    },
+    {
+        "x": "2024-07-31T21:47:23.093Z",
+        "y": 10519.11
+    },
+    {
+        "x": "2024-07-31T21:47:33.889Z",
+        "y": 10518.9
+    },
+    {
+        "x": "2024-07-31T21:48:22.459Z",
+        "y": 10519.11
+    },
+    {
+        "x": "2024-07-31T21:48:27.864Z",
+        "y": 10518.9
+    }
+]
 
 const dataMain = transformedData(data);
 
