@@ -1,13 +1,11 @@
-import { createLineChart } from "../Charting/createLineChart.js";
-import { converter } from "./vars.js";
+import { createLineChart } from "../Charting/createLineChart.js"
 
-export function generateGraph() {
-    converter.getConverter().processFile()
-    const [data1, data2] = converter.getData(); // Объявление переменных
 
-    console.log(data1, data2);
+export function presentation(data1, data2) {
+    const chart1 = createLineChart(data1)
+    const chart2 = createLineChart(data2)
+    console.log(data1);
+    console.log(data2);
 
-    // Убедитесь, что createLineChart возвращает элемент, который можно добавить в DOM
-    // const chart = createLineChart(data1);
-    // document.body.appendChild(chart);
+    document.body.appendChild(chart1)
 }

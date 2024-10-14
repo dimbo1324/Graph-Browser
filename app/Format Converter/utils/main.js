@@ -16,7 +16,7 @@ export default class ConvertToJSON {
         this.jsonFormatter = new JSONFormatter(this.dateTimeConverter);
     }
 
-    processFile() {
+    processFile(callback) {
         this.fileReader.readFile((data) => {
             const excelParser = new ExcelParser(data);
             const sheet1Data = excelParser.parseSheet(1);
@@ -27,6 +27,9 @@ export default class ConvertToJSON {
 
             this.updateDownloadLinks(this.#formattedData1, this.#formattedData2);
 
+            if (callback) {
+                callback(this.#formattedData1, this.#formattedData2);
+            }
         });
     }
 
@@ -42,7 +45,11 @@ export default class ConvertToJSON {
         }
     }
 
-    getLists() {
-        return [this.#formattedData1, this.#formattedData2];
+    getList1() {
+        return this.#formattedData1;
+    }
+
+    getList2() {
+        return this.#formattedData2;
     }
 }
