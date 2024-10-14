@@ -1,4 +1,3 @@
-
 function LineChart(data, {
     x = ([x]) => x,
     y = ([, y]) => y,
@@ -33,8 +32,8 @@ function LineChart(data, {
     if (xDomain === undefined) xDomain = d3.extent(X);
     if (yDomain === undefined) yDomain = [0, d3.max(Y)];
 
-    const xScale = xType(xDomain, xRange);
-    const yScale = yType(yDomain, yRange);
+    let xScale = xType(xDomain, xRange);
+    let yScale = yType(yDomain, yRange);
     const xAxis = d3.axisBottom(xScale).ticks(width / 80).tickSizeOuter(0);
     const yAxis = d3.axisLeft(yScale).ticks(height / 40, yFormat);
 
@@ -50,11 +49,11 @@ function LineChart(data, {
         .attr("viewBox", [0, 0, width, height])
         .attr("style", "max-width: 100%; height: auto; height: intrinsic;");
 
-    svg.append("g")
+    const gx = svg.append("g")
         .attr("transform", `translate(0,${height - marginBottom})`)
         .call(xAxis);
 
-    svg.append("g")
+    const gy = svg.append("g")
         .attr("transform", `translate(${marginLeft},0)`)
         .call(yAxis)
         .call(g => g.select(".domain").remove())
@@ -68,7 +67,7 @@ function LineChart(data, {
             .attr("text-anchor", "start")
             .text(yLabel));
 
-    svg.append("path")
+    const path = svg.append("path")
         .attr("fill", "none")
         .attr("stroke", color)
         .attr("stroke-width", strokeWidth)
@@ -77,19 +76,46 @@ function LineChart(data, {
         .attr("stroke-opacity", strokeOpacity)
         .attr("d", line(I));
 
+    const brush = d3.brushX()
+        .extent([[marginLeft, marginTop], [width - marginRight, height - marginBottom]])
+        .on("end", brushed);
+
+    svg.append("g")
+        .attr("class", "brush")
+        .call(brush);
+
+    function brushed(event) {
+        const selection = event.selection;
+        if (selection === null) {
+            xScale.domain(xDomain);
+            yScale.domain(yDomain);
+        } else {
+            const [x0, x1] = selection.map(xScale.invert);
+            xScale.domain([x0, x1]);
+            svg.select(".brush").call(brush.move, null);
+        }
+        updateChart();
+    }
+
+    function updateChart() {
+        gx.call(xAxis.scale(xScale));
+        gy.call(yAxis.scale(yScale));
+        path.attr("d", line(I));
+    }
+
     return svg.node();
 }
 
-// Example data
 const data = [
-    { "x": new Date(2021, 0, 1), "y": 320 },
-    { "x": new Date(2021, 0, 2), "y": 50 },
-    { "x": new Date(2021, 0, 3), "y": 40 },
-    { "x": new Date(2021, 0, 4), "y": 60 },
-    { "x": new Date(2021, 0, 5), "y": 70 }
+    { x: new Date("2024-03-15T10:45:30.123Z"), y: 10234 },
+    { x: new Date("2024-04-20T14:22:15.456Z"), y: 10345 },
+    { x: new Date("2024-06-10T08:55:45.789Z"), y: 10456 },
+    { x: new Date("2024-09-05T16:35:20.012Z"), y: 10567 },
+    { x: new Date("2024-11-18T12:10:05.678Z"), y: 10678 },
+
 ];
 
-// Render the chart
+// Отрисовка графика
 document.getElementById('chart').appendChild(LineChart(data, {
     x: d => d.x,
     y: d => d.y,
