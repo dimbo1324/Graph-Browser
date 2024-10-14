@@ -3,12 +3,105 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Line Chart with D3.js</title>
-        <link rel="stylesheet" href="style.css">
+        <title>Динамический график с D3.js</title>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <style>
+    .tooltip {
+      position: absolute;
+      padding: 8px;
+      background: #333;
+      color: #fff;
+      border-radius: 4px;
+      pointer-events: none;
+      font-size: 12px;
+    }
+  </style>
     </head>
     <body>
         <div id="chart"></div>
-        <script src="https://d3js.org/d3.v7.min.js"></script>
-        <script src="script.js" type="module"></script>
+        <div class="tooltip" style="display: none;"></div>
+
+        <script>
+  const data = [
+    { time: new Date('2023-10-01'), value: 10 },
+    { time: new Date('2023-10-02'), value: 30 },
+    { time: new Date('2023-10-03'), value: 20 },
+    // Добавьте больше данных здесь
+  ];
+
+  const margin = { top: 20, right: 20, bottom: 30, left: 50 },
+        width = 800 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
+
+  const svg = d3.select("#chart")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+  const x = d3.scaleTime()
+    .domain(d3.extent(data, d => d.time))
+    .range([0, width]);
+
+  const y = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.value)]).nice()
+    .range([height, 0]);
+
+  const xAxis = d3.axisBottom(x).ticks(10);
+  const yAxis = d3.axisLeft(y);
+
+  svg.append("g")
+    .attr("transform", `translate(0,${height})`)
+    .call(xAxis);
+
+  svg.append("g").call(yAxis);
+
+  const line = d3.line()
+    .x(d => x(d.time))
+    .y(d => y(d.value));
+
+  svg.append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("stroke", "steelblue")
+    .attr("stroke-width", 1.5)
+    .attr("d", line);
+
+  const tooltip = d3.select(".tooltip");
+
+  svg.selectAll("circle")
+    .data(data)
+    .enter().append("circle")
+    .attr("cx", d => x(d.time))
+    .attr("cy", d => y(d.value))
+    .attr("r", 4)
+    .attr("fill", "steelblue")
+    .on("mouseover", (event, d) => {
+      tooltip.style("display", "block")
+        .html(`Time: ${d3.timeFormat("%Y-%m-%d")(d.time)}<br>Value: ${d.value}`);
+    })
+    .on("mousemove", (event) => {
+      tooltip.style("left", (event.pageX + 10) + "px")
+             .style("top", (event.pageY - 20) + "px");
+    })
+    .on("mouseout", () => tooltip.style("display", "none"));
+
+  const zoom = d3.zoom()
+    .scaleExtent([1, 10])
+    .translateExtent([[0, 0], [width, height]])
+    .extent([[0, 0], [width, height]])
+    .on("zoom", (event) => {
+      const transform = event.transform;
+      const newX = transform.rescaleX(x);
+      svg.select(".x-axis").call(xAxis.scale(newX));
+      svg.selectAll("path").attr("d", line.x(d => newX(d.time)));
+      svg.selectAll("circle")
+        .attr("cx", d => newX(d.time))
+        .attr("cy", d => y(d.value));
+    });
+
+  svg.call(zoom);
+</script>
     </body>
 </html>
