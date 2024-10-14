@@ -30,7 +30,7 @@ function LineChart(data, {
     const D = d3.map(data, defined);
 
     if (xDomain === undefined) xDomain = d3.extent(X);
-    if (yDomain === undefined) yDomain = [0, d3.max(Y)];
+    if (yDomain === undefined) yDomain = [d3.min(Y), d3.max(Y) * 1.3];
 
     let xScale = xType(xDomain, xRange);
     let yScale = yType(yDomain, yRange);
@@ -76,47 +76,47 @@ function LineChart(data, {
         .attr("stroke-opacity", strokeOpacity)
         .attr("d", line(I));
 
-    const brush = d3.brushX()
+    const zoom = d3.zoom()
+        .scaleExtent([1, 10]) // Минимальный и максимальный уровни масштабирования .translateExtent([[marginLeft, marginTop], [width - marginRight, height - marginBottom]])
         .extent([[marginLeft, marginTop], [width - marginRight, height - marginBottom]])
-        .on("end", brushed);
+        .on("zoom", zoomed);
 
-    svg.append("g")
-        .attr("class", "brush")
-        .call(brush);
+    svg.call(zoom);
 
-    function brushed(event) {
-        const selection = event.selection;
-        if (selection === null) {
-            xScale.domain(xDomain);
-            yScale.domain(yDomain);
-        } else {
-            const [x0, x1] = selection.map(xScale.invert);
-            xScale.domain([x0, x1]);
-            svg.select(".brush").call(brush.move, null);
-        }
-        updateChart();
-    }
+    function zoomed(event) {
+        const transform = event.transform;
+        const zx = transform.rescaleX(xScale);
+        const zy = transform.rescaleY(yScale);
 
-    function updateChart() {
-        gx.call(xAxis.scale(xScale));
-        gy.call(yAxis.scale(yScale));
-        path.attr("d", line(I));
+        gx.call(xAxis.scale(zx));
+        gy.call(yAxis.scale(zy));
+        path.attr("d", line.x(i => zx(X[i])).y(i => zy(Y[i])));
     }
 
     return svg.node();
 }
 
-const data = [
-    { x: new Date("2024-03-15T10:45:30.123Z"), y: 10234 },
-    { x: new Date("2024-04-20T14:22:15.456Z"), y: 10345 },
-    { x: new Date("2024-06-10T08:55:45.789Z"), y: 10456 },
-    { x: new Date("2024-09-05T16:35:20.012Z"), y: 10567 },
-    { x: new Date("2024-11-18T12:10:05.678Z"), y: 10678 },
+function transformedData(obj) {
+    return obj.map(d => ({
+        x: new Date(d.x),
+        y: d.y
+    }));
+}
 
+const data = [
+    { "x": "2024-07-31T21:01:00.719Z", "y": 3 },
+    { "x": "2024-08-01T02:11:59.738Z", "y": 5 },
+    { "x": "2024-08-01T02:12:05.142Z", "y": 56 },
+    { "x": "2024-08-01T02:14:03.857Z", "y": 12 },
+    { "x": "2024-08-01T02:14:09.259Z", "y": 19 },
+    { "x": "2024-08-01T02:14:14.666Z", "y": 1 },
+    { "x": "2024-08-01T02:14:20.064Z", "y": -12 },
+    { "x": "2024-08-01T02:15:03.233Z", "y": 5 },
 ];
 
-// Отрисовка графика
-document.getElementById('chart').appendChild(LineChart(data, {
+const dataMain = transformedData(data);
+
+document.getElementById('chart').appendChild(LineChart(dataMain, {
     x: d => d.x,
     y: d => d.y,
     yLabel: "Value",
@@ -124,3 +124,5 @@ document.getElementById('chart').appendChild(LineChart(data, {
     height: 500,
     color: "steelblue"
 }));
+
+console.log(dataMain);
