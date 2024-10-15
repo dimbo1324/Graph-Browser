@@ -1,17 +1,23 @@
-import { doZoom, zoomableChart } from "./utils/ZoomableChart/main.js";
-import { createButton } from "./htmlElements/buttons.js";
-doZoom()
-
-
+import { data } from "./data/data.js";
+import Chart from "./utils/Chart/Chart.js";
+import DateFormatter from "./data/utils/dateFormatter.js";
+import { doZoom } from "./utils/ZoomableChart/main.js";
 /*
-__________________________________________________________________
-Возвращает обзор
-__________________________________________________________________
+______________________________________________________________________
+______________________________________________________________________
 */
-createButton('zoom', 'zoom').addEventListener('click', () => {
-    zoomableChart.reset();
-});
+new DateFormatter(data)
+console.log(JSON.stringify(data));
+
+const chart = new Chart(data)
+chart.render(document.getElementById("chart"))
+
 /*
-__________________________________________________________________
-__________________________________________________________________
+______________________________________________________________________
+______________________________________________________________________
+*/
+doZoom()
+/*
+______________________________________________________________________
+______________________________________________________________________
 */

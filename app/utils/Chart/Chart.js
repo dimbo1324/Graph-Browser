@@ -35,7 +35,6 @@ export default class Chart {
         this.#yKey = yKey;
 
         // Проверка данных на корректность
-        console.log('Data being used for chart:', this.#data);
         this.#data.forEach(d => {
             if (!(d[this.#xKey] instanceof Date) || typeof d[this.#yKey] !== 'number') {
                 console.error('Invalid data point:', d);
