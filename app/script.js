@@ -1,56 +1,4 @@
-function createZoomableChart({
-    data,
-    width,
-    height,
-    x,
-    y,
-    z,
-    xAxis,
-    yAxis,
-    grid
-}) {
-    const zoom = d3.zoom()
-        .scaleExtent([0.5, 32])
-        .on("zoom", zoomed);
-
-    const svg = d3.create("svg")
-        .attr("viewBox", [0, 0, width, height]);
-
-    const gGrid = svg.append("g");
-
-    const gDot = svg.append("g")
-        .attr("fill", "none")
-        .attr("stroke-linecap", "round");
-
-    gDot.selectAll("path")
-        .data(data)
-        .join("path")
-        .attr("d", d => `M${x(d[0])},${y(d[1])}h0`)
-        .attr("stroke", d => z(d[2]));
-
-    const gx = svg.append("g");
-
-    const gy = svg.append("g");
-
-    svg.call(zoom).call(zoom.transform, d3.zoomIdentity);
-
-    function zoomed({ transform }) {
-        const zx = transform.rescaleX(x).interpolate(d3.interpolateRound);
-        const zy = transform.rescaleY(y).interpolate(d3.interpolateRound);
-        gDot.attr("transform", transform).attr("stroke-width", 5 / transform.k);
-        gx.call(xAxis, zx);
-        gy.call(yAxis, zy);
-        gGrid.call(grid, zx, zy);
-    }
-
-    return Object.assign(svg.node(), {
-        reset() {
-            svg.transition()
-                .duration(750)
-                .call(zoom.transform, d3.zoomIdentity);
-        }
-    });
-}
+import ZoomableChart from "./utils/ZoomableChart.js";
 
 // Генерация данных
 const data = (() => {
@@ -80,9 +28,9 @@ const z = d3.scaleOrdinal()
     .range(d3.schemeCategory10);
 
 const xAxis = (g, x) => g.attr("transform", `translate(0,${height})`)
-    .call(d3.axisTop(x).ticks(12))
+    .call(d3.axisTop(x).ticks(12));
 
-const yAxis = (g, y) => g.call(d3.axisRight(y).ticks(12 * k))
+const yAxis = (g, y) => g.call(d3.axisRight(y).ticks(12 * k));
 
 const grid = (g, x, y) => g.attr("stroke", "currentColor")
     .attr("stroke-opacity", 0.1)
@@ -107,7 +55,8 @@ const grid = (g, x, y) => g.attr("stroke", "currentColor")
         .attr("y1", d => 0.5 + y(d))
         .attr("y2", d => 0.5 + y(d)));
 
-const chart = createZoomableChart({
+// Создание и отображение графика
+const chart = new ZoomableChart({
     data,
     width,
     height,
@@ -120,4 +69,12 @@ const chart = createZoomableChart({
 });
 
 // Добавляем график в контейнер
-document.getElementById('chart-container').appendChild(chart);
+const container = document.getElementById('chart-container');
+chart.render(container);
+
+// Пример использования метода сброса зума
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'r') {
+        chart.reset();
+    }
+});
