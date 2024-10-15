@@ -7,3 +7,5 @@ export const plottingPoints = (() => {
         Array.from({ length: 10 }, () => [random(), random() - 1, 2])
     );
 })();
+
+
