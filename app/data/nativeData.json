@@ -1,12 +1,4 @@
-import CreateChart from "./utils/CreateChart.js";
-import { data } from "./data/data.js";
-
-
-const obj1 = new CreateChart(data)
-obj1.render(document.getElementById("chart"))
-
-
-const ob = [
+[
     {
         "x": "2024-07-31T21:01:00.719Z",
         "y": 10518.47
@@ -108,10 +100,3 @@ const ob = [
         "y": 10518.9
     }
 ]
-
-for (let i = 0; i < ob.length; i++) {
-    console.log(ob[i]);
-    for (key in ob[i]) {
-        console.log(Object.keys(ob));
-    }
-}
