@@ -1,4 +1,4 @@
-export default class CreateChart {
+export default class Chart {
     #data;
     #width;
     #height;
