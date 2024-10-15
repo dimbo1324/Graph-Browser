@@ -28,6 +28,14 @@ export default class CreateChart {
         this.#marginBottom = marginBottom;
         this.#marginLeft = marginLeft;
 
+        // Проверка данных на корректность
+        console.log('Data being used for chart:', this.#data);
+        this.#data.forEach(d => {
+            if (!(d.x instanceof Date) || typeof d.y !== 'number') {
+                console.error('Invalid data point:', d);
+            }
+        });
+
         this.#declareXScale();
         this.#declareYScale();
         this.#declareLine();
@@ -38,17 +46,29 @@ export default class CreateChart {
     }
 
     #declareXScale() {
-        this.#x = d3.scaleUtc(d3.extent(this.#data, d => d.Date), [this.#marginLeft, this.#width - this.#marginRight]);
+        this.#x = d3.scaleUtc()
+            .domain(d3.extent(this.#data, d => d.x))
+            .range([this.#marginLeft, this.#width - this.#marginRight]);
     }
 
     #declareYScale() {
-        this.#y = d3.scaleLinear([0, d3.max(this.#data, d => d.Close)], [this.#height - this.#marginBottom, this.#marginTop]);
+        this.#y = d3.scaleLinear()
+            .domain([0, d3.max(this.#data, d => d.y)])
+            .range([this.#height - this.#marginBottom, this.#marginTop]);
     }
 
     #declareLine() {
         this.#line = d3.line()
-            .x(d => this.#x(d.Date))
-            .y(d => this.#y(d.Close));
+            .x(d => {
+                const xValue = this.#x(d.x);
+                if (isNaN(xValue)) console.error('Invalid x value:', d.x);
+                return xValue;
+            })
+            .y(d => {
+                const yValue = this.#y(d.y);
+                if (isNaN(yValue)) console.error('Invalid y value:', d.y);
+                return yValue;
+            });
     }
 
     #createSVGContainer() {
@@ -97,10 +117,10 @@ export default class CreateChart {
     }
 
     #pointermoved(event) {
-        const bisect = d3.bisector(d => d.Date).center;
+        const bisect = d3.bisector(d => d.x).center;
         const i = bisect(this.#data, this.#x.invert(d3.pointer(event)[0]));
         this.#tooltip.style("display", null);
-        this.#tooltip.attr("transform", `translate(${this.#x(this.#data[i].Date)},${this.#y(this.#data[i].Close)})`);
+        this.#tooltip.attr("transform", `translate(${this.#x(this.#data[i].x)},${this.#y(this.#data[i].y)})`);
 
         const path = this.#tooltip.selectAll("path")
             .data([,])
@@ -111,9 +131,8 @@ export default class CreateChart {
         const text = this.#tooltip.selectAll("text")
             .data([,])
             .join("text")
-            .call(text => text
-                .selectAll("tspan")
-                .data([this.#formatDate(this.#data[i].Date), this.#formatValue(this.#data[i].Close)])
+            .call(text => text.selectAll("tspan")
+                .data([this.#formatDate(this.#data[i].x), this.#formatValue(this.#data[i].y)])
                 .join("tspan")
                 .attr("x", 0)
                 .attr("y", (_, i) => `${i * 1.1}em`)

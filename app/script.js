@@ -6,5 +6,5 @@ new DateFormatter(data)
 
 const newData = data
 
-new CreateChart(newData)
+new CreateChart(newData).render(document.getElementById("chart"))
 
