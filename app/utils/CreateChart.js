@@ -60,7 +60,7 @@ export default class CreateChart {
             .style("-webkit-tap-highlight-color", "transparent")
             .style("overflow", "visible")
             .on("pointerenter pointermove", this.#pointermoved.bind(this))
-            .on("pointerleave", this.#pointerleft.bind(this))
+            .on("pointerleave", this.#pointerLeft.bind(this))
             .on("touchstart", event => event.preventDefault());
     }
 
@@ -123,7 +123,7 @@ export default class CreateChart {
         this.#size(text, path);
     }
 
-    #pointerleft() {
+    #pointerLeft() {
         this.#tooltip.style("display", "none");
     }
 
