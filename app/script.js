@@ -1,26 +1,26 @@
-import ZoomableChart from "./utils/ZoomableChart.js";
+import ZoomableChart from "./utils/ZoomableChart/ZoomableChart.js";
 
 // Генерация данных
 const data = (() => {
-    const random = d3.randomNormal(0, 0.5);
+    const random = d3.randomNormal(0, 0.1);
     const sqrt3 = Math.sqrt(3);
     return [].concat(
-        Array.from({ length: 300 }, () => [random() + sqrt3, random() + 1, 0]),
-        Array.from({ length: 300 }, () => [random() - sqrt3, random() + 1, 1]),
-        Array.from({ length: 300 }, () => [random(), random() - 1, 2])
+        Array.from({ length: 3 }, () => [random() + sqrt3, random() + 1, 0]),
+        Array.from({ length: 3 }, () => [random() - sqrt3, random() + 1, 1]),
+        Array.from({ length: 3 }, () => [random(), random() - 1, 2])
     );
 })();
 
 const width = 928;
 const height = 600;
-const k = height / width; // Коэффициент масштабирования для оси y
+const k = (height / width); // Коэффициент масштабирования для оси y
 
 const x = d3.scaleLinear()
     .domain([-4.5, 4.5])
     .range([0, width]);
 
 const y = d3.scaleLinear()
-    .domain([1 * k, 8 * k])
+    .domain([-4.5 * k, 4.5 * k])
     .range([height, 0]);
 
 const z = d3.scaleOrdinal()
@@ -72,7 +72,7 @@ const chart = new ZoomableChart({
 const container = document.getElementById('chart-container');
 chart.render(container);
 
-// Пример использования метода сброса зума
+// Пример использования метода сброса зума, под нее сделать отдельную кнопку
 document.addEventListener('keydown', (event) => {
     if (event.key === 'r') {
         chart.reset();
