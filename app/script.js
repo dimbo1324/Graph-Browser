@@ -11,7 +11,6 @@ console.log(JSON.stringify(data));
 
 const chart = new Chart(data)
 chart.render(document.getElementById("chart"))
-
 /*
 ______________________________________________________________________
 ______________________________________________________________________
