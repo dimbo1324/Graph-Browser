@@ -14,7 +14,6 @@ export const zoomableChart = new ZoomableChart({
     grid
 });
 export function doZoom() {
-    // Добавляем график в контейнер
     const container = document.getElementById('chart-container');
     zoomableChart.render(container);
     return zoomableChart
