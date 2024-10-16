@@ -106,11 +106,11 @@ export default class Chart {
             .attr("cy", d => this.y(d.value));
     }
 
-    // reset() {
-    //     this.#svg.transition()
-    //         .duration(750)
-    //         .call(this.#zoom.transform, d3.zoomIdentity);
-    // }
+    reset() {
+        this.svg.transition()
+            .duration(750)
+            .call(this.zoom.transform, d3.zoomIdentity);
+    }
 
     zoomed(event) {
         const transform = event.transform;
