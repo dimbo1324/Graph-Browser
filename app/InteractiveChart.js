@@ -2,58 +2,49 @@ class ZoomableChart {
     constructor(container, data) {
         this.container = container;
         this.data = data;
-        this.margin = { top: 20, right: 20, bottom: 30, left: 40 };
-        this.width = 800 - this.margin.left - this.margin.right;
-        this.height = 400 - this.margin.top - this.margin.bottom;
+        this.margin = { top: 20, right: 20, bottom: 300, left: 40 };
         this.initChart();
     }
 
     initChart() {
-        // Создаем SVG-элемент
-        this.svg = d3.select(this.container)
-            .append("svg")
-            .attr("width", this.width + this.margin.left + this.margin.right)
-            .attr("height", this.height + this.margin.top + this.margin.bottom)
+        const containerElement = d3.select(this.container);
+        this.width = containerElement.node().clientWidth + this.margin.left + this.margin.right;
+        this.height = containerElement.node().clientHeight + this.margin.top + this.margin.bottom;
+
+        this.svg = containerElement.append("svg")
+            .attr("viewBox", `0 0 ${this.width + this.margin.left + this.margin.right} ${this.height + this.margin.top + this.margin.bottom}`)
+            .attr("preserveAspectRatio", "xMidYMid meet")
             .append("g")
             .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
 
-        // Определяем шкалы
         this.x = d3.scaleTime().range([0, this.width]);
         this.y = d3.scaleLinear().range([this.height, 0]);
 
-        // Устанавливаем оси
         this.xAxis = this.svg.append("g")
             .attr("class", "x-axis")
             .attr("transform", `translate(0,${this.height})`);
-
         this.yAxis = this.svg.append("g")
             .attr("class", "y-axis");
 
-        // Добавляем сетку (grid) для осей
         this.xGrid = this.svg.append("g")
             .attr("class", "x-grid")
             .attr("transform", `translate(0,${this.height})`);
-
         this.yGrid = this.svg.append("g")
             .attr("class", "y-grid");
 
-        // Определяем линию
         this.line = d3.line()
             .x(d => this.x(d.date))
             .y(d => this.y(d.value));
 
-        // Добавляем путь для линии графика
         this.path = this.svg.append("path")
             .attr("class", "line")
             .style("fill", "none")
             .style("stroke", "steelblue")
             .style("stroke-width", 1.5);
 
-        // Добавляем Zoom
         this.zoom = d3.zoom()
-            .scaleExtent([1, 10])
-            .translateExtent([[0, 0], [this.width, this.height]])
-            .extent([[0, 0], [this.width, this.height]])
+            .scaleExtent([0.5, 32])
+            .translateExtent([[-1000, -1000], [1000, 1000]])
             .on("zoom", (event) => this.zoomed(event));
 
         this.svg.append("rect")
@@ -63,20 +54,16 @@ class ZoomableChart {
             .style("pointer-events", "all")
             .call(this.zoom);
 
-        // Вызов функции рендеринга
         this.render();
     }
 
     render() {
-        // Устанавливаем домены для шкал
         this.x.domain(d3.extent(this.data, d => d.date));
         this.y.domain([0, d3.max(this.data, d => d.value)]);
 
-        // Обновляем оси
         this.xAxis.call(d3.axisBottom(this.x));
         this.yAxis.call(d3.axisLeft(this.y));
 
-        // Рендерим сетку (grid)
         this.xGrid.call(d3.axisBottom(this.x)
             .tickSize(-this.height)
             .tickFormat(""))
@@ -89,11 +76,9 @@ class ZoomableChart {
             .selectAll("line")
             .style("stroke", "#e0e0e0");
 
-        // Рендерим линию графика
         this.path.datum(this.data)
             .attr("d", this.line);
 
-        // Рендерим точки данных
         this.points = this.svg.selectAll(".point")
             .data(this.data)
             .join("circle")
@@ -124,24 +109,27 @@ class ZoomableChart {
     zoomed(event) {
         const transform = event.transform;
         const newX = transform.rescaleX(this.x);
+        const newY = transform.rescaleY(this.y);
 
-        // Обновляем ось X и сетку
         this.xAxis.call(d3.axisBottom(newX));
+        this.yAxis.call(d3.axisLeft(newY));
+
         this.xGrid.call(d3.axisBottom(newX)
             .tickSize(-this.height)
             .tickFormat(""));
+        this.yGrid.call(d3.axisLeft(newY)
+            .tickSize(-this.width)
+            .tickFormat(""));
 
-        // Обновляем положение точек и линию графика
-        this.path.attr("d", this.line.x(d => newX(d.date)));
-        this.points.attr("cx", d => newX(d.date));
+        this.path.attr("d", this.line.x(d => newX(d.date)).y(d => newY(d.value)));
+        this.points.attr("cx", d => newX(d.date)).attr("cy", d => newY(d.value));
     }
 }
 
-// Генерируем примерные данные с датами и значениями
+// Пример использования
 const data = Array.from({ length: 100 }, (_, i) => ({
     date: new Date(2023, 0, i),
     value: Math.random() * 100
 }));
 
-// Инициализируем график
 new ZoomableChart("#chart-container", data);

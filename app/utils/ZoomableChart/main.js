@@ -18,9 +18,3 @@ export function doZoom() {
     zoomableChart.render(container);
     return zoomableChart
 }
-
-export default class Zoom {
-    constructor() {
-
-    }
-}

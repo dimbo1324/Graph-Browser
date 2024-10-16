@@ -80,7 +80,7 @@ export default class ZoomableChart {
         const zy = transform.rescaleY(this.#y).interpolate(d3.interpolateRound);
 
         // Ограничение перемещения в отрицательную область оси Y 
-         const [minY, maxY] = zy.domain();
+        const [minY, maxY] = zy.domain();
         let tY = transform.y;
         if (minY < 0) {
             const offset = this.#y(0) - this.#y(minY);
