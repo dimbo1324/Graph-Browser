@@ -33,7 +33,7 @@ export default class Chart {
             .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
 
         this.x = d3.scaleTime().range([0, this.width]);
-        this.y = d3.scaleLinear().range([this.height, 0]);
+        this.y = d3.scaleLinear().range([this.height, 2]);
 
         this.xAxis = this.svg.append("g")
             .attr("class", "x-axis")
@@ -65,7 +65,7 @@ export default class Chart {
             .style("fill", chartConfig.lineColor);
 
         this.zoom = d3.zoom()
-            .scaleExtent([0.1, 10000])
+            .scaleExtent([0.1, 100000])
             .translateExtent([[0, 0], [this.width, this.height]])
             .extent([[0, 0], [this.width, this.height]])
             .on("zoom", (event) => this.zoomed(event));
@@ -84,12 +84,12 @@ export default class Chart {
 
     render() {
         this.x.domain(d3.extent(this.data, d => d.date));
-        this.y.domain([0, d3.max(this.data, d => d.value)]);
+        this.y.domain([0, d3.max(this.data, d => d.value + 0.5 * (d.value))]);
 
         this.xAxis.call(d3.axisBottom(this.x)
             .tickFormat(d3.timeFormat("%Y-%m-%d %H:%M:%S.%L")));
 
-        this.yAxis.call(d3.axisLeft(this.y));
+        this.yAxis.call(d3.axisLeft(this.y).ticks(25)); // Устанавливает 10 делений на оси Y ```
 
         this.path.attr("d", this.line(this.data));
 
@@ -115,7 +115,7 @@ export default class Chart {
                 return d3.timeFormat("%Y")(d);
             }));
 
-        this.yAxis.call(d3.axisLeft(this.y));
+        this.yAxis.call(d3.axisLeft(this.y).ticks(25)); // Устанавливает 10 делений на оси Y ```
 
         this.path.attr("d", d3.line()
             .x(d => newX(d.date))
