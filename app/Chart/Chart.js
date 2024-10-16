@@ -3,7 +3,10 @@ import { chartConfig } from "./options.js";
 export default class Chart {
     constructor(container, data) {
         this.container = container;
-        this.data = data;
+        this.data = data.map(d => ({
+            date: new Date(d.x),
+            value: Number(d.y)
+        }));
         this.margin = chartConfig.margin;
         this.width = chartConfig.initialWidth - this.margin.left - this.margin.right;
         this.height = this.width / chartConfig.coefficientHeight;
@@ -61,9 +64,8 @@ export default class Chart {
             .attr("cy", d => this.y(d.value))
             .style("fill", chartConfig.lineColor);
 
-        // Установка масштабирования с высоким пределом увеличения для детального отображения
         this.zoom = d3.zoom()
-            .scaleExtent([0.1, 10000]) // Позволяет зум от года до миллисекунд
+            .scaleExtent([0.1, 10000])
             .translateExtent([[0, 0], [this.width, this.height]])
             .extent([[0, 0], [this.width, this.height]])
             .on("zoom", (event) => this.zoomed(event));
@@ -85,7 +87,7 @@ export default class Chart {
         this.y.domain([0, d3.max(this.data, d => d.value)]);
 
         this.xAxis.call(d3.axisBottom(this.x)
-            .tickFormat(d3.timeFormat("%Y-%m-%d %H:%M:%S.%L"))); // Формат для миллисекунд
+            .tickFormat(d3.timeFormat("%Y-%m-%d %H:%M:%S.%L")));
 
         this.yAxis.call(d3.axisLeft(this.y));
 
@@ -105,13 +107,12 @@ export default class Chart {
                 const [minDate, maxDate] = scale;
                 const diff = maxDate - minDate;
 
-                // Формат, зависящий от уровня зума
-                if (diff < 1000) return d3.timeFormat("%S.%L")(d); // Миллисекунды
-                else if (diff < 60000) return d3.timeFormat("%H:%M:%S")(d); // Секунды
-                else if (diff < 3600000) return d3.timeFormat("%H:%M")(d); // Минуты
-                else if (diff < 86400000) return d3.timeFormat("%H:00")(d); // Часы
-                else if (diff < 31536000000) return d3.timeFormat("%Y-%m-%d")(d); // Дни
-                return d3.timeFormat("%Y")(d); // Годы
+                if (diff < 1000) return d3.timeFormat("%S.%L")(d);
+                else if (diff < 60000) return d3.timeFormat("%H:%M:%S")(d);
+                else if (diff < 3600000) return d3.timeFormat("%H:%M")(d);
+                else if (diff < 86400000) return d3.timeFormat("%H:00")(d);
+                else if (diff < 31536000000) return d3.timeFormat("%Y-%m-%d")(d);
+                return d3.timeFormat("%Y")(d);
             }));
 
         this.yAxis.call(d3.axisLeft(this.y));
