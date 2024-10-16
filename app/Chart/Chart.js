@@ -1,22 +1,21 @@
 import { chartConfig } from "./options.js";
+
 export default class Chart {
     constructor(container, data) {
         this.container = container;
         this.data = data;
         this.margin = chartConfig.margin;
-        this.width = chartConfig.initialWidth - this.margin.left - this.margin.right; // изменил ширину для удобства
+        this.width = chartConfig.initialWidth - this.margin.left - this.margin.right;
         this.height = this.width / chartConfig.coefficientHeight;
         this.initChart();
     }
 
     initChart() {
-        // Создаем SVG-элемент
         this.svg = d3.select(this.container)
             .append("svg")
             .attr("width", this.width + this.margin.left + this.margin.right)
             .attr("height", this.height + this.margin.top + this.margin.bottom);
 
-        // Добавляем область обрезки (clipPath)
         this.svg.append("defs")
             .append("clipPath")
             .attr("id", "clip")
@@ -26,16 +25,13 @@ export default class Chart {
             .attr("x", this.margin.left)
             .attr("y", this.margin.top);
 
-        // Группа для графика с применением clipPath 
         this.g = this.svg.append("g")
             .attr("clip-path", "url(#clip)")
             .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
 
-        // Настройка шкал
         this.x = d3.scaleTime().range([0, this.width]);
         this.y = d3.scaleLinear().range([this.height, 0]);
 
-        // Настройка осей 
         this.xAxis = this.svg.append("g")
             .attr("class", "x-axis")
             .attr("transform", `translate(${this.margin.left},${this.height + this.margin.top})`);
@@ -44,12 +40,10 @@ export default class Chart {
             .attr("class", "y-axis")
             .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
 
-        // Определяем линию
         this.line = d3.line()
             .x(d => this.x(d.date))
             .y(d => this.y(d.value));
 
-        // Добавляем путь для линии графика
         this.path = this.g.append("path")
             .datum(this.data)
             .attr("class", "line")
@@ -58,7 +52,6 @@ export default class Chart {
             .style("stroke", chartConfig.lineColor)
             .style("stroke-width", chartConfig.strokeWidth);
 
-        // Добавляем точки данных 
         this.points = this.g.selectAll(".point")
             .data(this.data)
             .enter().append("circle")
@@ -68,14 +61,13 @@ export default class Chart {
             .attr("cy", d => this.y(d.value))
             .style("fill", chartConfig.lineColor);
 
-        // Добавляем Zoom 
+        // Установка масштабирования с высоким пределом увеличения для детального отображения
         this.zoom = d3.zoom()
-            .scaleExtent(chartConfig.zoomScaleExtent)
-            .translateExtent(chartConfig.zoomTranslateExtent)
+            .scaleExtent([0.1, 10000]) // Позволяет зум от года до миллисекунд
+            .translateExtent([[0, 0], [this.width, this.height]])
             .extent([[0, 0], [this.width, this.height]])
             .on("zoom", (event) => this.zoomed(event));
 
-        // Применяем область для зума
         this.svg.append("rect")
             .attr("width", this.width)
             .attr("height", this.height)
@@ -85,45 +77,50 @@ export default class Chart {
             .style("pointer-events", "all")
             .call(this.zoom);
 
-        // Вызываем рендеринг
         this.render();
     }
 
     render() {
-        // Установка доменов для шкал 
         this.x.domain(d3.extent(this.data, d => d.date));
         this.y.domain([0, d3.max(this.data, d => d.value)]);
 
-        // Рендерим оси 
-        this.xAxis.call(d3.axisBottom(this.x));
+        this.xAxis.call(d3.axisBottom(this.x)
+            .tickFormat(d3.timeFormat("%Y-%m-%d %H:%M:%S.%L"))); // Формат для миллисекунд
+
         this.yAxis.call(d3.axisLeft(this.y));
 
-        // Обновляем линию графика 
         this.path.attr("d", this.line(this.data));
 
-        // Обновляем точки данных 
         this.points.attr("cx", d => this.x(d.date))
             .attr("cy", d => this.y(d.value));
     }
 
     zoomed(event) {
         const transform = event.transform;
-
-        // Обновляем шкалы с учетом трансформации
         const newX = transform.rescaleX(this.x);
-        const newY = transform.rescaleY(this.y);
 
-        // Обновляем оси
-        this.xAxis.call(d3.axisBottom(newX));
-        this.yAxis.call(d3.axisLeft(newY));
+        this.xAxis.call(d3.axisBottom(newX)
+            .tickFormat(d => {
+                const scale = newX.domain();
+                const [minDate, maxDate] = scale;
+                const diff = maxDate - minDate;
 
-        // Обновляем линию графика с новой шкалой X, сохраняя данные 
+                // Формат, зависящий от уровня зума
+                if (diff < 1000) return d3.timeFormat("%S.%L")(d); // Миллисекунды
+                else if (diff < 60000) return d3.timeFormat("%H:%M:%S")(d); // Секунды
+                else if (diff < 3600000) return d3.timeFormat("%H:%M")(d); // Минуты
+                else if (diff < 86400000) return d3.timeFormat("%H:00")(d); // Часы
+                else if (diff < 31536000000) return d3.timeFormat("%Y-%m-%d")(d); // Дни
+                return d3.timeFormat("%Y")(d); // Годы
+            }));
+
+        this.yAxis.call(d3.axisLeft(this.y));
+
         this.path.attr("d", d3.line()
             .x(d => newX(d.date))
-            .y(d => newY(d.value))(this.data));
+            .y(d => this.y(d.value))(this.data));
 
-        // Обновляем точки данных с новыми координатами 
         this.points.attr("cx", d => newX(d.date))
-            .attr("cy", d => newY(d.value));
+            .attr("cy", d => this.y(d.value));
     }
 }
