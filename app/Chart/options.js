@@ -10,4 +10,5 @@ const config = {
     lineColor: "black"
 };
 
+
 export const chartConfig = new Proxy(config, proxyHeader)

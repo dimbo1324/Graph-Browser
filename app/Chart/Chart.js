@@ -1,14 +1,12 @@
 import { chartConfig } from "./options.js";
 export default class Chart {
-    constructor(container, data, data2) {
+    constructor(container, data) {
         this.container = container;
         this.data = data;
-        this.data2 = data2;
         this.margin = chartConfig.margin;
-        this.width = chartConfig.initialWidth - this.margin.left - this.margin.right;
+        this.width = chartConfig.initialWidth - this.margin.left - this.margin.right; // изменил ширину для удобства
         this.height = this.width / chartConfig.coefficientHeight;
         this.initChart();
-
     }
 
     initChart() {
@@ -60,27 +58,9 @@ export default class Chart {
             .style("stroke", chartConfig.lineColor)
             .style("stroke-width", chartConfig.strokeWidth);
 
-        //"*"
-        this.path2 = this.g.append("path")
-            .datum(this.data2)
-            .attr("class", "line")
-            .attr("d", this.line)
-            .style("fill", "none")
-            .style("stroke", chartConfig.lineColor)
-            .style("stroke-width", chartConfig.strokeWidth);
-
         // Добавляем точки данных 
         this.points = this.g.selectAll(".point")
             .data(this.data)
-            .enter().append("circle")
-            .attr("class", "point")
-            .attr("r", chartConfig.pointRadius)
-            .attr("cx", d => this.x(d.date))
-            .attr("cy", d => this.y(d.value))
-            .style("fill", chartConfig.lineColor);
-
-        this.points2 = this.g.selectAll(".point")
-            .data(this.data2)
             .enter().append("circle")
             .attr("class", "point")
             .attr("r", chartConfig.pointRadius)
@@ -111,25 +91,20 @@ export default class Chart {
 
     render() {
         // Установка доменов для шкал 
-        const allData = this.data.concat(this.data2); // Объединяем данные
-        this.x.domain(d3.extent(allData, d => d.date));
-        this.y.domain([0, d3.max(allData, d => d.value || d.value2)]); // Учитываем оба значения // Рендерим оси 
+        this.x.domain(d3.extent(this.data, d => d.date));
+        this.y.domain([0, d3.max(this.data, d => d.value)]);
+
+        // Рендерим оси 
         this.xAxis.call(d3.axisBottom(this.x));
         this.yAxis.call(d3.axisLeft(this.y));
 
-        // Обновляем линии графиков 
+        // Обновляем линию графика 
         this.path.attr("d", this.line(this.data));
-        this.path2.attr("d", this.line(this.data2));
 
         // Обновляем точки данных 
         this.points.attr("cx", d => this.x(d.date))
             .attr("cy", d => this.y(d.value));
-
-        this.points2.attr("cx", d => this.x(d.date))
-            .attr("cy", d => this.y(d.value2)); // Обратите внимание на value2
     }
-
-
 
     zoomed(event) {
         const transform = event.transform;
@@ -145,18 +120,10 @@ export default class Chart {
         // Обновляем линию графика с новой шкалой X, сохраняя данные 
         this.path.attr("d", d3.line()
             .x(d => newX(d.date))
-            .y(d => newY(d.value))(this.data))
-
-        this.path2.attr("d", d3.line()
-            .x(d => newX(d.date))
-            .y(d => newY(d.value))(this.data2))
+            .y(d => newY(d.value))(this.data));
 
         // Обновляем точки данных с новыми координатами 
         this.points.attr("cx", d => newX(d.date))
             .attr("cy", d => newY(d.value));
-
-        this.points2.attr("cx", d => this.x(d.date))
-            .attr("cy", d => this.y(d.value2)); // Используйте value2 вместо value
-
     }
 }
