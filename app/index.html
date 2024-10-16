@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3"></script>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <title>График с D3</title>
+    </head>
+    <body>
+
+        <div id="main_container">
+
+            <input type="file" id="upload" accept=".xlsx, .xls"
+                aria-label="Загрузите файл Excel">
+
+            <button id="processFileButton">Конвертировать в JSON</button>
+
+            <pre id="output"></pre>
+
+            <a id="downloadSheet1" style="display:none;"
+                download="sheet1_data.json">Скачать данные первого листа</a>
+            <a id="downloadSheet2" style="display:none;"
+                download="sheet2_data.json">Скачать данные второго листа</a>
+
+            <canvas id="myChart" width="600" height="400"></canvas>
+
+        </div>
+        <script src="index.js" type="module"></script>
+    </body>
+</html>
