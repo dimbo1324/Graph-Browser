@@ -1,5 +1,5 @@
 import { chartConfig } from "./options.js";
-export default class Main {
+export default class Chart {
     constructor(container, data) {
         this.container = container;
         this.data = data;

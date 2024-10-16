@@ -1,4 +1,4 @@
-import Main from "./Chart/Chart.js";
+import Chart from "./Chart/Chart.js";
 
 
 // Пример данных
@@ -8,4 +8,4 @@ const data = Array.from({ length: 222 }, (_, i) => ({
 }));
 
 // Инициализация графика
-new Main("#chart-container", data);
+new Chart("#chart-container", data);
