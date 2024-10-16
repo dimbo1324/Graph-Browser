@@ -1,4 +1,4 @@
-class ZoomableChart {
+class Main {
     constructor(container, data) {
         this.container = container;
         this.data = data;
@@ -134,4 +134,4 @@ const data = Array.from({ length: 222 }, (_, i) => ({
 }));
 
 // Инициализация графика
-new ZoomableChart("#chart-container", data);
+new Main("#chart-container", data);
