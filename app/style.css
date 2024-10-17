@@ -1,0 +1,58 @@
+svg {
+    background-color: #395d84;
+    /* Темный фон */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Стиль осевых линий */
+.x-axis path,
+.y-axis path {
+    stroke: none;
+}
+
+.x-axis line,
+.y-axis line {
+    stroke: #ffd700;
+    /* Ярко-желтый цвет для сетки */
+    stroke-width: 0.5;
+    /* Тонкая линия */
+    opacity: 0.3;
+    /* Прозрачность сетки для более легкого вида */
+}
+
+/* Стили для линии графика */
+.line {
+    stroke: #4CAF50;
+    /* Цвет линии графика (ярко-зеленый для контраста) */
+    stroke-width: 2;
+    fill: none;
+}
+
+/* Стили для точек на графике */
+.point {
+    fill: #FF4500;
+    /* Ярко-оранжевые точки для выделения */
+    stroke: #ffeb3b;
+    /* Желтая обводка для контраста */
+    stroke-width: 1;
+}
+
+/* Стили для осей */
+.x-axis text,
+.y-axis text {
+    fill: #e0e0e0;
+    /* Светло-серый цвет текста на осях */
+    font-size: 12px;
+}
+
+.x-axis line,
+.y-axis line {
+    stroke-dasharray: 2, 2;
+    /* Пунктирная линия для сетки */
+}
+
+/* Область зума */
+rect {
+    cursor: crosshair;
+    /* Курсор в виде перекрестия при зуме */
+}
