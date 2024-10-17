@@ -1,7 +1,17 @@
 svg {
+    width: 100%;
+    height: 500px;
     background-color: #395d84;
-    /* Темный фон */
+    flex-grow: 1;
+    height: 100%;
     font-family: 'Arial', sans-serif;
+}
+
+
+
+svg>rect:first-of-type {
+    fill: blue;
+    /* Задаем цвет заливки только для первого rect внутри svg */
 }
 
 /* Стиль осевых линий */
@@ -51,8 +61,13 @@ svg {
     /* Пунктирная линия для сетки */
 }
 
-/* Область зума */
 rect {
     cursor: crosshair;
-    /* Курсор в виде перекрестия при зуме */
+}
+
+.chart-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 500px;
 }
