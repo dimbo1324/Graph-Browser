@@ -8,7 +8,7 @@ const config = {
     strokeWidth: 2,
     zoomScaleExtent: [1, 10],
     zoomTranslateExtent: [[0, 0], [8000, 8000]],
-    lineColor: "black"
+    lineColor: "green "
 };
 
 

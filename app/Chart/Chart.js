@@ -22,11 +22,11 @@ export default class Chart {
 
         this.xAxis.call(d3.axisBottom(this.x)
             .tickFormat(d3.timeFormat("%Y-%m-%d %H:%M:%S.%L"))
-            .tickSize(-this.height)); 
+            .tickSize(-this.height));
 
         this.yAxis.call(d3.axisLeft(this.y)
             .ticks(chartConfig.ticks)
-            .tickSize(-this.width)); 
+            .tickSize(-this.width));
 
         this.path.attr("d", this.line(this.data));
 
@@ -39,7 +39,6 @@ export default class Chart {
         const newX = transform.rescaleX(this.x);
         const newY = transform.rescaleY(this.y);
 
-        // Обновляем ось X с учетом нового масштаба
         this.xAxis.call(d3.axisBottom(newX)
             .tickFormat(d => {
                 const scale = newX.domain();
