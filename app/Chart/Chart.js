@@ -39,6 +39,7 @@ export default class Chart {
         const newX = transform.rescaleX(this.x);
         const newY = transform.rescaleY(this.y);
 
+        // Обновляем ось X с учетом нового масштаба
         this.xAxis.call(d3.axisBottom(newX)
             .tickFormat(d => {
                 const scale = newX.domain();
