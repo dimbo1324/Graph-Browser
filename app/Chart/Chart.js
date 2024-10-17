@@ -14,7 +14,6 @@ export default class Chart {
     }
 
     #render() {
-        // Устанавливаем диапазоны осей с учетом отрицательных значений
         this.x.domain(d3.extent(this.data, d => d.date));
         const minY = d3.min(this.data, d => d.value);
         const maxY = d3.max(this.data, d => d.value);
@@ -39,7 +38,7 @@ export default class Chart {
         const newX = transform.rescaleX(this.x);
         const newY = transform.rescaleY(this.y);
 
-        // Обновляем ось X с учетом нового масштаба
+        // Обновление осей
         this.xAxis.call(d3.axisBottom(newX)
             .tickFormat(d => {
                 const scale = newX.domain();
@@ -59,6 +58,7 @@ export default class Chart {
             .ticks(chartConfig.ticks)
             .tickSize(-this.width));
 
+        // Обновление пути и точек с учетом зума
         this.path.attr("d", d3.line()
             .x(d => newX(d.date))
             .y(d => newY(d.value))(this.data));
@@ -118,9 +118,10 @@ export default class Chart {
             .attr("cy", d => this.y(d.value))
             .style("fill", chartConfig.lineColor);
 
+        // Добавление зума
         this.zoom = d3.zoom()
             .scaleExtent([0.1, 100000])
-            .translateExtent([[0, 0], [this.width, this.height]])
+            .translateExtent([[-Infinity, -Infinity], [Infinity, Infinity]])
             .extent([[0, 0], [this.width, this.height]])
             .on("zoom", (event) => this.#zoomed(event));
 
@@ -131,7 +132,13 @@ export default class Chart {
             .attr("y", this.margin.top)
             .style("fill", "none")
             .style("pointer-events", "all")
-            .call(this.zoom);
+            .call(this.zoom)
+            .on("mousedown", () => {
+                this.svg.style("cursor", "grabbing");
+            })
+            .on("mouseup", () => {
+                this.svg.style("cursor", "default");
+            });
 
         this.#render();
     }
