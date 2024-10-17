@@ -89,7 +89,7 @@ export default class Chart {
         this.xAxis.call(d3.axisBottom(this.x)
             .tickFormat(d3.timeFormat("%Y-%m-%d %H:%M:%S.%L")));
 
-        this.yAxis.call(d3.axisLeft(this.y).ticks(25)); // Устанавливает 10 делений на оси Y ```
+        this.yAxis.call(d3.axisLeft(this.y).ticks(25)); 
 
         this.path.attr("d", this.line(this.data));
 
@@ -115,7 +115,7 @@ export default class Chart {
                 return d3.timeFormat("%Y")(d);
             }));
 
-        this.yAxis.call(d3.axisLeft(this.y).ticks(25)); // Устанавливает 10 делений на оси Y ```
+        this.yAxis.call(d3.axisLeft(this.y).ticks(25));
 
         this.path.attr("d", d3.line()
             .x(d => newX(d.date))
