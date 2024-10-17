@@ -14,13 +14,19 @@ export default class Chart {
     }
 
     #render() {
+        // Устанавливаем диапазоны осей с учетом отрицательных значений
         this.x.domain(d3.extent(this.data, d => d.date));
-        this.y.domain([0, d3.max(this.data, d => d.value + 0.5 * (d.value))]);
+        const minY = d3.min(this.data, d => d.value);
+        const maxY = d3.max(this.data, d => d.value);
+        this.y.domain([minY < 0 ? minY * 1.1 : 0, maxY * 1.1]);
 
         this.xAxis.call(d3.axisBottom(this.x)
-            .tickFormat(d3.timeFormat("%Y-%m-%d %H:%M:%S.%L")));
+            .tickFormat(d3.timeFormat("%Y-%m-%d %H:%M:%S.%L"))
+            .tickSize(-this.height)); 
 
-        this.yAxis.call(d3.axisLeft(this.y).ticks(chartConfig.ticks));
+        this.yAxis.call(d3.axisLeft(this.y)
+            .ticks(chartConfig.ticks)
+            .tickSize(-this.width)); 
 
         this.path.attr("d", this.line(this.data));
 
@@ -33,6 +39,7 @@ export default class Chart {
         const newX = transform.rescaleX(this.x);
         const newY = transform.rescaleY(this.y);
 
+        // Обновляем ось X с учетом нового масштаба
         this.xAxis.call(d3.axisBottom(newX)
             .tickFormat(d => {
                 const scale = newX.domain();
@@ -45,9 +52,12 @@ export default class Chart {
                 else if (diff < 86400000) return d3.timeFormat("%H:00")(d);
                 else if (diff < 31536000000) return d3.timeFormat("%Y-%m-%d")(d);
                 return d3.timeFormat("%Y")(d);
-            }));
+            })
+            .tickSize(-this.height));
 
-        this.yAxis.call(d3.axisLeft(newY).ticks(chartConfig.ticks));
+        this.yAxis.call(d3.axisLeft(newY)
+            .ticks(chartConfig.ticks)
+            .tickSize(-this.width));
 
         this.path.attr("d", d3.line()
             .x(d => newX(d.date))
@@ -77,7 +87,7 @@ export default class Chart {
             .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
 
         this.x = d3.scaleTime().range([0, this.width]);
-        this.y = d3.scaleLinear().range([this.height, 2]);
+        this.y = d3.scaleLinear().range([this.height, 0]);
 
         this.xAxis = this.svg.append("g")
             .attr("class", "x-axis")
@@ -125,5 +135,4 @@ export default class Chart {
 
         this.#render();
     }
-
 }
