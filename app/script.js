@@ -1,4 +1,4 @@
-import Chart from "./Chart/Chart.js";
+import Chart from "./Chart/Chart.js"
 
 const data = [
     {
