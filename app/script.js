@@ -283,4 +283,6 @@ const data = [
     }
 ]
 
-new Chart("#chart-container", data)
+const chart = new Chart("#chart-container", data)
+
+chart.reset()
