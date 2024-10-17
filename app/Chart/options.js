@@ -2,6 +2,7 @@ import { proxyHeader } from "./proxyHeader.js";
 const config = {
     margin: { top: 0, right: 40, bottom: 40, left: 40 },
     initialWidth: 1000,
+    ticks: 25,
     coefficientHeight: 2,
     pointRadius: 4,
     strokeWidth: 2,

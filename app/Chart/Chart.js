@@ -13,6 +13,49 @@ export default class Chart {
         this.initChart();
     }
 
+    #render() {
+        this.x.domain(d3.extent(this.data, d => d.date));
+        this.y.domain([0, d3.max(this.data, d => d.value + 0.5 * (d.value))]);
+
+        this.xAxis.call(d3.axisBottom(this.x)
+            .tickFormat(d3.timeFormat("%Y-%m-%d %H:%M:%S.%L")));
+
+        this.yAxis.call(d3.axisLeft(this.y).ticks(chartConfig.ticks));
+
+        this.path.attr("d", this.line(this.data));
+
+        this.points.attr("cx", d => this.x(d.date))
+            .attr("cy", d => this.y(d.value));
+    }
+
+    #zoomed(event) {
+        const transform = event.transform;
+        const newX = transform.rescaleX(this.x);
+
+        this.xAxis.call(d3.axisBottom(newX)
+            .tickFormat(d => {
+                const scale = newX.domain();
+                const [minDate, maxDate] = scale;
+                const diff = maxDate - minDate;
+
+                if (diff < 1000) return d3.timeFormat("%S.%L")(d);
+                else if (diff < 60000) return d3.timeFormat("%H:%M:%S")(d);
+                else if (diff < 3600000) return d3.timeFormat("%H:%M")(d);
+                else if (diff < 86400000) return d3.timeFormat("%H:00")(d);
+                else if (diff < 31536000000) return d3.timeFormat("%Y-%m-%d")(d);
+                return d3.timeFormat("%Y")(d);
+            }));
+
+        this.yAxis.call(d3.axisLeft(this.y).ticks(chartConfig.ticks));
+
+        this.path.attr("d", d3.line()
+            .x(d => newX(d.date))
+            .y(d => this.y(d.value))(this.data));
+
+        this.points.attr("cx", d => newX(d.date))
+            .attr("cy", d => this.y(d.value));
+    }
+
     initChart() {
         this.svg = d3.select(this.container)
             .append("svg")
@@ -68,7 +111,7 @@ export default class Chart {
             .scaleExtent([0.1, 100000])
             .translateExtent([[0, 0], [this.width, this.height]])
             .extent([[0, 0], [this.width, this.height]])
-            .on("zoom", (event) => this.zoomed(event));
+            .on("zoom", (event) => this.#zoomed(event));
 
         this.svg.append("rect")
             .attr("width", this.width)
@@ -79,49 +122,7 @@ export default class Chart {
             .style("pointer-events", "all")
             .call(this.zoom);
 
-        this.render();
+        this.#render();
     }
 
-    render() {
-        this.x.domain(d3.extent(this.data, d => d.date));
-        this.y.domain([0, d3.max(this.data, d => d.value + 0.5 * (d.value))]);
-
-        this.xAxis.call(d3.axisBottom(this.x)
-            .tickFormat(d3.timeFormat("%Y-%m-%d %H:%M:%S.%L")));
-
-        this.yAxis.call(d3.axisLeft(this.y).ticks(25)); // Устанавливает 10 делений на оси Y ```
-
-        this.path.attr("d", this.line(this.data));
-
-        this.points.attr("cx", d => this.x(d.date))
-            .attr("cy", d => this.y(d.value));
-    }
-
-    zoomed(event) {
-        const transform = event.transform;
-        const newX = transform.rescaleX(this.x);
-
-        this.xAxis.call(d3.axisBottom(newX)
-            .tickFormat(d => {
-                const scale = newX.domain();
-                const [minDate, maxDate] = scale;
-                const diff = maxDate - minDate;
-
-                if (diff < 1000) return d3.timeFormat("%S.%L")(d);
-                else if (diff < 60000) return d3.timeFormat("%H:%M:%S")(d);
-                else if (diff < 3600000) return d3.timeFormat("%H:%M")(d);
-                else if (diff < 86400000) return d3.timeFormat("%H:00")(d);
-                else if (diff < 31536000000) return d3.timeFormat("%Y-%m-%d")(d);
-                return d3.timeFormat("%Y")(d);
-            }));
-
-        this.yAxis.call(d3.axisLeft(this.y).ticks(25));
-
-        this.path.attr("d", d3.line()
-            .x(d => newX(d.date))
-            .y(d => this.y(d.value))(this.data));
-
-        this.points.attr("cx", d => newX(d.date))
-            .attr("cy", d => this.y(d.value));
-    }
 }
