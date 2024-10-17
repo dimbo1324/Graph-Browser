@@ -284,8 +284,3 @@ const data = [
 ]
 
 const chart = new Chart("#chart-container", data)
-
-document.getElementById('button').addEventListener('click', () => {
-    chart.reset()
-})
-

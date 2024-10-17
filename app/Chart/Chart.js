@@ -1,4 +1,4 @@
-import { chartConfig } from "./options.js"
+import { chartConfig } from "./options.js";
 
 export default class Chart {
     constructor(container, data) {
@@ -38,6 +38,7 @@ export default class Chart {
         const newX = transform.rescaleX(this.x);
         const newY = transform.rescaleY(this.y);
 
+        // Обновление осей
         this.xAxis.call(d3.axisBottom(newX)
             .tickFormat(d => {
                 const scale = newX.domain();
@@ -57,6 +58,7 @@ export default class Chart {
             .ticks(chartConfig.ticks)
             .tickSize(-this.width));
 
+        // Обновление пути и точек с учетом зума
         this.path.attr("d", d3.line()
             .x(d => newX(d.date))
             .y(d => newY(d.value))(this.data));
@@ -116,6 +118,7 @@ export default class Chart {
             .attr("cy", d => this.y(d.value))
             .style("fill", chartConfig.lineColor);
 
+        // Добавление зума
         this.zoom = d3.zoom()
             .scaleExtent([0.1, 100000])
             .translateExtent([[-Infinity, -Infinity], [Infinity, Infinity]])
@@ -138,32 +141,5 @@ export default class Chart {
             });
 
         this.#render();
-    }
-
-    reset() {
-        this.x.domain(d3.extent(this.data, d => d.date));
-        this.y.domain([d3.min(this.data, d => d.value), d3.max(this.data, d => d.value)]);
-
-        this.xAxis.call(d3.axisBottom(this.x)
-            .tickFormat(d3.timeFormat("%Y-%m-%d %H:%M:%S.%L"))
-            .tickSize(-this.height));
-
-        this.yAxis.call(d3.axisLeft(this.y)
-            .ticks(chartConfig.ticks)
-            .tickSize(-this.width));
-
-        this.path.attr("d", this.line(this.data));
-
-        this.points.attr("cx", d => this.x(d.date))
-            .attr("cy", d => this.y(d.value));
-
-        this.svg.transition()
-            .duration(750)
-            .call(this.zoom.transform, d3.zoomIdentity)
-            .on("end", () => {
-                this.path.attr("d", this.line(this.data));
-                this.points.attr("cx", d => this.x(d.date))
-                    .attr("cy", d => this.y(d.value));
-            });
     }
 }
