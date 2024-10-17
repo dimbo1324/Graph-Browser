@@ -140,7 +140,7 @@ export default class Chart {
         this.#render();
     }
 
-         {
+    reset() {
         this.x.domain(d3.extent(this.data, d => d.date));
         this.y.domain([d3.min(this.data, d => d.value), d3.max(this.data, d => d.value)]);
 
