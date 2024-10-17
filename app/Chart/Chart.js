@@ -31,6 +31,7 @@ export default class Chart {
     #zoomed(event) {
         const transform = event.transform;
         const newX = transform.rescaleX(this.x);
+        const newY = transform.rescaleY(this.y);
 
         this.xAxis.call(d3.axisBottom(newX)
             .tickFormat(d => {
@@ -46,14 +47,14 @@ export default class Chart {
                 return d3.timeFormat("%Y")(d);
             }));
 
-        this.yAxis.call(d3.axisLeft(this.y).ticks(chartConfig.ticks));
+        this.yAxis.call(d3.axisLeft(newY).ticks(chartConfig.ticks));
 
         this.path.attr("d", d3.line()
             .x(d => newX(d.date))
-            .y(d => this.y(d.value))(this.data));
+            .y(d => newY(d.value))(this.data));
 
         this.points.attr("cx", d => newX(d.date))
-            .attr("cy", d => this.y(d.value));
+            .attr("cy", d => newY(d.value));
     }
 
     initChart() {
