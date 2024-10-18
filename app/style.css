@@ -76,7 +76,14 @@ body {
 #chart-container,
 #main-container {
     width: 100%;
-    height: 30vw;
+    height: 40vw;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+#manage-container {
+    width: 100%;
+    height: 5vw;
     max-width: 100%;
     box-sizing: border-box;
 }

@@ -1,5 +1,5 @@
 import Chart from "./Chart/Chart.js"
-import Observable from "./Newsletters and notifications/Observable.js";
+import Observable from "./notifications/Observable.js";
 
 const data = [
     {
@@ -289,22 +289,18 @@ const chart = new Chart("#chart-container", data);
 const observableObject = new Observable();
 const chartContainer = document.getElementById('chart-container');
 
-// Метод для обновления ширины и уведомления наблюдателей
 observableObject.updateWidth = function (newWidth) {
-    chartContainer.style.width = newWidth + 'px'; // Обновляем ширину контейнера
-    this.notifyObservers('offsetWidth', newWidth); // Уведомляем наблюдателей
+    this.notifyObservers('offsetWidth', newWidth);
 };
 
-// Добавляем наблюдателя для ширины
 observableObject.addObserver('offsetWidth', (newWidth) => {
     console.log(`Ширина изменена на: ${newWidth}px`);
 });
 
 // Обработчик события для нажатия ЛКМ
 document.addEventListener('mousedown', function (event) {
-    if (event.button === 0) { // Проверяем, что нажата ЛКМ
-        const currentWidth = chartContainer.offsetWidth; // Получаем текущее значение ширины
-        const newWidth = currentWidth + 10; // Увеличиваем ширину на 10 пикселей (или на любое другое значение)
-        observableObject.updateWidth(newWidth); // Обновляем ширину и уведомляем наблюдателей
+    if (event.button === 0) {
+        const newWidth = chartContainer.offsetWidth;
+        observableObject.updateWidth(newWidth);
     }
 });

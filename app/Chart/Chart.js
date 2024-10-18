@@ -1,5 +1,5 @@
 import { chartConfig } from "./options.js";
-import Observable from "../Newsletters and notifications/Observable.js";
+import Observable from "../notifications/Observable.js";
 
 export default class Chart {
     constructor(container, data) {
