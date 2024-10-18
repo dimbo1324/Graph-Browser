@@ -1,4 +1,3 @@
-
 export const proxyHeader = {
     // get(target, prop) {
     //     const value = target[prop]

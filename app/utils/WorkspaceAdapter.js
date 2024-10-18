@@ -7,15 +7,15 @@ export default class WorkspaceAdapter {
     #observable;
     #workspaceAdapterButton;
     #callback;
-    #operation;
-    constructor(idContainer, classContainer, idAdapterButton, callback, operation) {
+
+    constructor(idContainer, classContainer, idAdapterButton, callback) {
         this.#idContainer = idContainer;
         this.#classContainer = classContainer;
         this.#container = this.#findContainer();
         this.#observable = new Observable();
         this.#workspaceAdapterButton = document.getElementsByClassName(idAdapterButton)[0];
         this.#callback = callback;
-        this.#operation = operation; // Сохраняем функцию в поле 
+
         this.#observable.addObserver('offsetWidth', (newWidth) => {
             console.log(`Ширина изменена на: ${newWidth}px`);
         });
@@ -51,17 +51,7 @@ export default class WorkspaceAdapter {
     adaptingWorkspace() {
         this.#workspaceAdapterButton.addEventListener('click', () => {
             const newWidth = this.#container.offsetWidth;
-
-            if (this.#operation) {
-                this.#operation();
-            }
-
-            // Обновляем ширину графика в конфиге
             this.#updateWidth(newWidth);
         });
-    }
-
-    getCurrentWidth() {
-        return this.#container.offsetWidth;
     }
 }

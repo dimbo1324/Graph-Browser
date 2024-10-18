@@ -1,7 +1,7 @@
 import { chartConfig } from "./options.js";
 import Observable from "../notifications/Observable.js";
 
-class Chart {
+export default class Chart {
     constructor(container, data) {
         this.observable = new Observable()
         this.container = container;
@@ -35,11 +35,12 @@ class Chart {
             .attr("cy", d => this.y(d.value));
     }
 
-    zoomed(event) {
+    #zoomed(event) {
         const transform = event.transform;
         const newX = transform.rescaleX(this.x);
         const newY = transform.rescaleY(this.y);
 
+        // Обновление осей
         this.xAxis.call(d3.axisBottom(newX)
             .tickFormat(d => {
                 const scale = newX.domain();
@@ -59,60 +60,13 @@ class Chart {
             .ticks(chartConfig.ticks)
             .tickSize(-this.width));
 
+        // Обновление пути и точек с учетом зума
         this.path.attr("d", d3.line()
             .x(d => newX(d.date))
             .y(d => newY(d.value))(this.data));
 
         this.points.attr("cx", d => newX(d.date))
             .attr("cy", d => newY(d.value));
-    }
-
-    resetZoom() {
-        // Сброс зума
-        this.svg.transition().duration(750).call(this.zoom.transform, d3.zoomIdentity);
-
-        // Обновляем размеры
-        this.width = chartConfig.initialWidth - this.margin.left - this.margin.right;
-        this.height = this.width / chartConfig.coefficientHeight;
-
-        // Обновляем SVG, оси и сетку
-        this.updateDimensions();
-    }
-
-    updateDimensions() {
-        // Переприсваиваем размеры
-        this.width = chartConfig.initialWidth - this.margin.left - this.margin.right;
-        this.height = this.width / chartConfig.coefficientHeight;
-
-        // Обновляем размер SVG
-        this.svg.attr("width", this.width + this.margin.left + this.margin.right)
-            .attr("height", this.height + this.margin.top + this.margin.bottom);
-
-        // Обновляем область клипирования
-        this.svg.select("#clip rect")
-            .attr("width", this.width)
-            .attr("height", this.height);
-
-        // Обновляем шкалы осей
-        this.x.range([0, this.width]);
-        this.y.range([this.height, 0]);
-
-        // Перерисовываем оси
-        this.xAxis.attr("transform", `translate(${this.margin.left},${this.height + this.margin.top})`);
-        this.xAxis.call(d3.axisBottom(this.x).tickSize(-this.height));
-
-        this.yAxis.attr("transform", `translate(${this.margin.left},${this.margin.top})`);
-        this.yAxis.call(d3.axisLeft(this.y).tickSize(-this.width));
-
-        // Перерисовываем линию графика
-        this.path.attr("d", this.line(this.data));
-
-        // Перерисовываем точки
-        this.points.attr("cx", d => this.x(d.date))
-            .attr("cy", d => this.y(d.value));
-
-        // Перерисовываем сетку
-        this.svg.selectAll(".grid-line").remove();
     }
 
     initChart() {
@@ -171,7 +125,7 @@ class Chart {
             .scaleExtent([0.1, 100000])
             .translateExtent([[-Infinity, -Infinity], [Infinity, Infinity]])
             .extent([[0, 0], [this.width, this.height]])
-            .on("zoom", (event) => this.zoomed(event));
+            .on("zoom", (event) => this.#zoomed(event));
 
         this.svg.append("rect")
             .attr("width", this.width)
@@ -191,25 +145,3 @@ class Chart {
         this.#render();
     }
 }
-
-
-
-
-export const chartObj = new Chart("#chart-container", [
-    {
-        "x": "2024-07-31T21:01:00.719Z",
-        "y": 10520
-    },
-    {
-        "x": "2024-08-25T17:24:15.813Z",
-        "y": 5651.562
-    },
-    {
-        "x": "2024-08-25T17:24:21.214Z",
-        "y": 5650.707
-    },
-    {
-        "x": "2024-08-31T20:59:00.719Z",
-        "y": 5650.707
-    }
-]);
