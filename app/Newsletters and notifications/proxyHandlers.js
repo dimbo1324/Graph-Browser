@@ -1,4 +1,4 @@
-const handlerForObservable = (observableInstance) => ({
+export const handlerForObservable = (observableInstance) => ({
   set: (target, prop, value) => {
     target[prop] = value;
     observableInstance.notifyObservers(target, prop);
@@ -6,6 +6,3 @@ const handlerForObservable = (observableInstance) => ({
   },
 });
 
-export default {
-  handlerForObservable
-};

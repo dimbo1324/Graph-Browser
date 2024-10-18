@@ -1,4 +1,5 @@
 import Chart from "./Chart/Chart.js"
+import Observable from "./Newsletters and notifications/Observable.js";
 
 const data = [
     {
@@ -284,3 +285,24 @@ const data = [
 ]
 
 const chart = new Chart("#chart-container", data)
+
+
+// Создаем наблюдаемый объект
+const observableObject = new Observable({ name: 'Alice', age: 25 });
+
+// Добавляем наблюдателя для события изменения имени
+observableObject.addObserver('changeName', (newName) => {
+    console.log(`Имя изменено на: ${newName}`);
+});
+
+// Добавляем наблюдателя для события изменения возраста
+observableObject.addObserver('changeAge', (newAge) => {
+    console.log(`Возраст изменен на: ${newAge}`);
+});
+
+// Изменяем свойства объекта
+observableObject.value.name = 'Bob';
+observableObject.notifyObservers('changeName', observableObject.value.name);
+
+observableObject.value.age = 30;
+observableObject.notifyObservers('changeAge', observableObject.value.age);

@@ -1,7 +1,9 @@
 import { chartConfig } from "./options.js";
+import Observable from "../Newsletters and notifications/Observable.js";
 
 export default class Chart {
     constructor(container, data) {
+        this.observable = new Observable()
         this.container = container;
         this.data = data.map(d => ({
             date: new Date(d.x),

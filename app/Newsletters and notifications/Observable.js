@@ -1,4 +1,4 @@
-import handlerForObservable from "./proxyHandlers.js"
+import { handlerForObservable } from "./proxyHandlers.js"
 export default class Observable {
   #observersMap = new Map();
   #observersSet = new Set();
