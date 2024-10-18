@@ -284,25 +284,27 @@ const data = [
     }
 ]
 
-const chart = new Chart("#chart-container", data)
+const chart = new Chart("#chart-container", data);
 
+const observableObject = new Observable();
+const chartContainer = document.getElementById('chart-container');
 
-// Создаем наблюдаемый объект
-const observableObject = new Observable({ name: 'Alice', age: 25 });
+// Метод для обновления ширины и уведомления наблюдателей
+observableObject.updateWidth = function (newWidth) {
+    chartContainer.style.width = newWidth + 'px'; // Обновляем ширину контейнера
+    this.notifyObservers('offsetWidth', newWidth); // Уведомляем наблюдателей
+};
 
-// Добавляем наблюдателя для события изменения имени
-observableObject.addObserver('changeName', (newName) => {
-    console.log(`Имя изменено на: ${newName}`);
+// Добавляем наблюдателя для ширины
+observableObject.addObserver('offsetWidth', (newWidth) => {
+    console.log(`Ширина изменена на: ${newWidth}px`);
 });
 
-// Добавляем наблюдателя для события изменения возраста
-observableObject.addObserver('changeAge', (newAge) => {
-    console.log(`Возраст изменен на: ${newAge}`);
+// Обработчик события для нажатия ЛКМ
+document.addEventListener('mousedown', function (event) {
+    if (event.button === 0) { // Проверяем, что нажата ЛКМ
+        const currentWidth = chartContainer.offsetWidth; // Получаем текущее значение ширины
+        const newWidth = currentWidth + 10; // Увеличиваем ширину на 10 пикселей (или на любое другое значение)
+        observableObject.updateWidth(newWidth); // Обновляем ширину и уведомляем наблюдателей
+    }
 });
-
-// Изменяем свойства объекта
-observableObject.value.name = 'Bob';
-observableObject.notifyObservers('changeName', observableObject.value.name);
-
-observableObject.value.age = 30;
-observableObject.notifyObservers('changeAge', observableObject.value.age);
