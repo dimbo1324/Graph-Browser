@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.8.2/css/all.css"
+      integrity="sha384-xVVam1KS4+Qt2OrFa+VdRUoXygyKIuNWUUUBZYv+n27STsJ7oDOHJgfF0bNKLMJF"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <title>Chart</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="topbar">
+        <div class="logo">
+          <h2>Компания</h2>
+        </div>
+        <div class="search">
+          <input type="text" id="search" placeholder="search here" />
+          <label for="search"> <i class="fas fa-search"></i></label>
+        </div>
+        <i class="fas fa-bell"></i>
+        <div class="user">
+          <img src="images/transneft-title-logo.jpg" alt="img" />
+        </div>
+      </div>
+      <div class="sidebar">
+        <ul>
+          <li>
+            <a href="#">
+              <i class="fas fa-question">
+                <div>Часть 1</div>
+              </i>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fas fa-question">
+                <div>Часть 2</div>
+              </i>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fas fa-question">
+                <div>Часть 3</div>
+              </i>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fas fa-question">
+                <div>Часть 4</div>
+              </i>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fas fa-question">
+                <div>Часть 5</div>
+              </i>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fas fa-question">
+                <div>Часть 6</div>
+              </i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="main">
+        <div class="cards">
+          <div class="card">
+            <div class="card-content">
+              <div class="number">228</div>
+              <div class="card-name">Часть 1</div>
+            </div>
+            <div class="icon-box">
+              <i class="fas fa-question"></i>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content">
+              <div class="number">228</div>
+              <div class="card-name">Часть 1</div>
+            </div>
+            <div class="icon-box">
+              <i class="fas fa-question"></i>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content">
+              <div class="number">228</div>
+              <div class="card-name">Часть 1</div>
+            </div>
+            <div class="icon-box">
+              <i class="fas fa-question"></i>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content">
+              <div class="number">228</div>
+              <div class="card-name">Часть 1</div>
+            </div>
+            <div class="icon-box">
+              <i class="fas fa-question"></i>
+            </div>
+          </div>
+        </div>
+        <div class="charts">
+          <div class="chart">
+            <h2>Что-то, бла, бла, бла...</h2>
+          </div>
+          <div class="chart" id="doughnut-chart">
+            <h2>Что-то, бла, бла, бла...</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <canvas id="myChart" width="400" height="200"></canvas>
+
+    <script src="index.js" type="module"></script>
+  </body>
+</html>
