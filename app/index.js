@@ -1,3 +1,2 @@
-
-console.log(123);
+import { lineChart } from "./charts/chart1.js";
 

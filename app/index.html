@@ -10,8 +10,6 @@
       integrity="sha384-xVVam1KS4+Qt2OrFa+VdRUoXygyKIuNWUUUBZYv+n27STsJ7oDOHJgfF0bNKLMJF"
       crossorigin="anonymous"
     />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <title>Chart</title>
   </head>
   <body>
@@ -117,15 +115,17 @@
         <div class="charts">
           <div class="chart">
             <h2>Что-то, бла, бла, бла...</h2>
+            <canvas id="line-chart"></canvas>
           </div>
           <div class="chart" id="doughnut-chart">
-            <h2>Что-то, бла, бла, бла...</h2>
+            <h2>Что-то...</h2>
+            <canvas id="doughnut"></canvas>
           </div>
         </div>
       </div>
     </div>
-    <canvas id="myChart" width="400" height="200"></canvas>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
     <script src="index.js" type="module"></script>
   </body>
 </html>
