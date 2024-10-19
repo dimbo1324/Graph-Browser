@@ -1,2 +1,2 @@
-import { lineChart } from "./charts/chart1.js";
+import { lineChart } from "./charts/lineChart.js";
 
