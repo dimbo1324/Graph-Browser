@@ -2,11 +2,11 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: "Roboto Medium", sans-serif;
+    font-family: "Arial Rounded MT Bold", sans-serif;
 }
 
 body {
-    font-family: "Roboto Medium", sans-serif;
+    font-family: "Arial Rounded MT Bold", sans-serif;
     height: 100vh;
     overflow: hidden; /* Убираем прокрутку на странице */
 }
@@ -72,6 +72,7 @@ body {
 }
 
 /* Sidebar */
+/* Sidebar */
 .sidebar {
     background-color: #161a1f;
     padding-top: 20px;
@@ -91,20 +92,22 @@ body {
 .sidebar ul li a {
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 12px 15px; /* Одинаковая толщина для всех пунктов */
     text-decoration: none;
     color: #ededee;
     font-size: 16px;
+    border: 2px solid transparent; /* Для создания четкого разделения */
 }
 
 .sidebar ul li a:hover {
     background-color: #29323b;
     border-radius: 5px;
+    border-color: #29323b; /* При наведении цвет границы */
 }
 
 .sidebar ul li a i {
     font-size: 24px;
-    margin-right: 10px;
+    margin-right: 20px; /* Увеличено расстояние между значком и текстом */
 }
 
 .sidebar ul li a div {
@@ -113,7 +116,7 @@ body {
 }
 
 .sidebar {
-    width: 200px;
+    width: 200px; /* Ширина остается фиксированной */
 }
 
 /* Main content */
@@ -173,8 +176,10 @@ body {
 }
 
 .charts {
-    margin-top: 30px;
-    overflow: hidden;
+    margin-top: 20px;
+    display: flex; /* Используем Flexbox для размещения */
+    gap: 15px; /* Расстояние между элементами */
+    height: 100%; /* Полная высота для графиков */
 }
 
 .chart {
@@ -182,15 +187,27 @@ body {
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
-    height: 100vh; /* Ограничение по высоте для графика */
-    overflow-y: auto; /* Прокрутка, если график слишком большой */
+    flex: 7; /* 70% ширины для графика */
+    overflow-y: auto; /* Прокрутка, если контент слишком большой */
 }
 
-.chart h2 {
+.manage-panel {
+    background: #d0d6da;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+    flex: 3; /* 30% ширины для панели управления */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Выравниваем элементы в панели по началу */
+}
+
+.manage-panel h2 {
     text-align: center;
     font-size: 18px;
     color: #29323b;
 }
+
 
 /* Media Queries */
 @media (max-width: 1200px) {
