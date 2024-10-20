@@ -2,16 +2,16 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: Play, sans-serif;
+  font-family: "Roboto Medium", sans-serif;
 }
 
 body {
-  font-family: "Play", sans-serif;
+  font-family: "Roboto Medium", sans-serif;
 }
 
 .container {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 200px 10fr;
   grid-template-rows: 60px 1fr;
   height: 100vh;
 }

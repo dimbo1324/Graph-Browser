@@ -1,131 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="index.css" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="index.css"/>
     <link
-      rel="stylesheet"
-      href="https://pro.fontawesome.com/releases/v5.8.2/css/all.css"
-      integrity="sha384-xVVam1KS4+Qt2OrFa+VdRUoXygyKIuNWUUUBZYv+n27STsJ7oDOHJgfF0bNKLMJF"
-      crossorigin="anonymous"
+            rel="stylesheet"
+            href="https://pro.fontawesome.com/releases/v5.8.2/css/all.css"
+            integrity="sha384-xVVam1KS4+Qt2OrFa+VdRUoXygyKIuNWUUUBZYv+n27STsJ7oDOHJgfF0bNKLMJF"
+            crossorigin="anonymous"
     />
     <title>Chart</title>
-  </head>
-  <body>
-    <div class="container">
-      <div class="topbar">
+</head>
+<body>
+<div class="container">
+    <div class="topbar">
         <div class="logo">
-          <h2>Компания</h2>
+            <h2>Транснефть – Автоматизация и Метрология</h2>
         </div>
         <div class="search">
-          <input type="text" id="search" placeholder="search here" />
-          <label for="search"> <i class="fas fa-search"></i></label>
+            <input type="text" id="search" placeholder="search here"/>
+            <label for="search"> <i class="fas fa-search"></i></label>
         </div>
         <i class="fas fa-bell"></i>
         <div class="user">
-          <img src="images/transneft-title-logo.jpg" alt="img" />
+            <img src="images/transneft-title-logo.jpg" alt="img"/>
         </div>
-      </div>
-      <div class="sidebar">
+    </div>
+    <div class="sidebar">
         <ul>
-          <li>
-            <a href="#">
-              <i class="fas fa-question">
-                <div>Часть 1</div>
-              </i>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="fas fa-question">
-                <div>Часть 2</div>
-              </i>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="fas fa-question">
-                <div>Часть 3</div>
-              </i>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="fas fa-question">
-                <div>Часть 4</div>
-              </i>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="fas fa-question">
-                <div>Часть 5</div>
-              </i>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="fas fa-question">
-                <div>Часть 6</div>
-              </i>
-            </a>
-          </li>
+            <li>
+                <a href="#">
+                    <i class="far fa-user-circle">
+                        <div>Пользователи</div>
+                    </i>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-chart-bar">
+                        <div>Проекты</div>
+                    </i>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-archive	">
+                        <div>Архив</div>
+                    </i>
+                </a>
+            </li>
         </ul>
-      </div>
-      <div class="main">
+    </div>
+    <div class="main">
         <div class="cards">
-          <div class="card">
-            <div class="card-content">
-              <div class="number">228</div>
-              <div class="card-name">Часть 1</div>
+            <div class="card">
+                <div class="card-content">
+                    <div class="number">Проект 1</div>
+                    <div class="card-name">Тренды</div>
+                </div>
+                <div class="icon-box">
+                    <i class="fas fa-chart-line"></i>
+                </div>
             </div>
-            <div class="icon-box">
-              <i class="fas fa-question"></i>
+            <div class="card">
+                <div class="card-content">
+                    <div class="number">Проект 2</div>
+                    <div class="card-name">База данных</div>
+                </div>
+                <div class="icon-box">
+                    <i class="fas fa-database"></i>
+                </div>
             </div>
-          </div>
-          <div class="card">
-            <div class="card-content">
-              <div class="number">228</div>
-              <div class="card-name">Часть 1</div>
+            <div class="card">
+                <div class="card-content">
+                    <div class="number">Проект 3</div>
+                    <div class="card-name">НПС-13</div>
+                </div>
+                <div class="icon-box">
+                    <i class="fas fa-industry"></i>
+                </div>
             </div>
-            <div class="icon-box">
-              <i class="fas fa-question"></i>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-content">
-              <div class="number">228</div>
-              <div class="card-name">Часть 1</div>
-            </div>
-            <div class="icon-box">
-              <i class="fas fa-question"></i>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-content">
-              <div class="number">228</div>
-              <div class="card-name">Часть 1</div>
-            </div>
-            <div class="icon-box">
-              <i class="fas fa-question"></i>
-            </div>
-          </div>
         </div>
         <div class="charts">
-          <div class="chart">
-            <h2>Что-то, бла, бла, бла...</h2>
-            <canvas id="line-chart"></canvas>
-          </div>
+            <div class="chart">
+                <h2>Что-то, бла, бла, бла...</h2>
+                <canvas id="line-chart"></canvas>
+            </div>
         </div>
-      </div>
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1/dist/chartjs-plugin-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1/dist/chartjs-plugin-zoom.min.js"></script>
 
-    <!-- Ваш скрипт -->
-    <script src="index.js" type="module"></script>
-  </body>
+<!-- Ваш скрипт -->
+<script src="index.js" type="module"></script>
+</body>
 </html>
