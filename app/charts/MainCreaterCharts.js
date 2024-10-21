@@ -17,4 +17,6 @@ export default class MainCreaterCharts {
         this.#displayOptions = new DisplayOptions(this.#timelineEditor.getNewData())
         this.#lineChart = new LineChart(this.#displayOptions.getDisplayOptions(), this.#canvasId)
     }
+
+    
 }
