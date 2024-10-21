@@ -1,59 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="index.css"/>
-    <link
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="index.css" />
+        <link
             rel="stylesheet"
             href="https://pro.fontawesome.com/releases/v5.8.2/css/all.css"
             integrity="sha384-xVVam1KS4+Qt2OrFa+VdRUoXygyKIuNWUUUBZYv+n27STsJ7oDOHJgfF0bNKLMJF"
-            crossorigin="anonymous"
-    />
-    <title>Chart</title>
-</head>
-<body>
-<div class="container">
-    <div class="topbar">
-        <div class="logo">
-            <h2>Транснефть – Автоматизация и Метрология</h2>
-        </div>
-        <div class="search">
-            <input type="text" id="search" placeholder="search here"/>
-            <label for="search"> <i class="fas fa-search"></i></label>
-        </div>
-        <i class="fas fa-bell"></i>
-        <div class="user">
-            <img src="images/transneft-title-logo.jpg" alt="img"/>
-        </div>
-    </div>
-    <div class="sidebar">
-        <ul>
-            <li>
-                <a href="#">
-                    <i class="far fa-user-circle">
-                        <div>Пользователи</div>
-                    </i>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="far fa-chart-bar">
-                        <div>Проекты</div>
-                    </i>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="far fa-archive">
-                        <div>Архив</div>
-                    </i>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="main">
-        <!-- <div class="cards">
+            crossorigin="anonymous" />
+        <title>Chart</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="topbar">
+                <div class="logo">
+                    <h2>Транснефть – Автоматизация и Метрология</h2>
+                </div>
+                <div class="search">
+                    <input type="text" id="search" placeholder="search here" />
+                    <label for="search"> <i class="fas fa-search"></i></label>
+                </div>
+                <i class="fas fa-bell"></i>
+                <div class="user">
+                    <img src="images/transneft-title-logo.jpg" alt="img" />
+                </div>
+            </div>
+            <div class="sidebar">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <i class="far fa-user-circle">
+                                <div>Пользователи</div>
+                            </i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="far fa-chart-bar">
+                                <div>Проекты</div>
+                            </i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="far fa-archive">
+                                <div>Архив</div>
+                            </i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="main">
+                <!-- <div class="cards">
             <div class="card">
                 <div class="card-content">
                     <div class="number">Проект 1</div>
@@ -82,26 +81,28 @@
                 </div>
             </div>
         </div> -->
-        <div class="charts">
-            <div class="chart">
-                <h2>График...</h2>
-                <canvas id="line-chart"></canvas>
-            </div>
-            <div class="manage-panel">
-                <h2>Управление</h2>
-                <button id="resetZoom">Сбросить зум</button>
+                <div class="charts">
+                    <div class="chart">
+                        <h2>График...</h2>
+                        <canvas id="line-chart"></canvas>
+                    </div>
+                    <div class="manage-panel">
+                        <h2>Управление</h2>
+                        <button class="reset-zoom">Сбросить зум</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1/dist/chartjs-plugin-zoom.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1/dist/chartjs-plugin-zoom.min.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0"></script>
 
-
-<!-- Ваш скрипт -->
-<script src="index.js" type="module"></script>
-</body>
+        <!-- Ваш скрипт -->
+        <script src="index.js" type="module"></script>
+    </body>
 </html>
