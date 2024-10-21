@@ -6,7 +6,6 @@ import DisplayOptions from "./chart/DisplayOptions.js"
 
 export default class MainCreaterCharts {
     #timelineEditor
-    #lineChart
     #displayOptions
     #data
     #canvasId
@@ -15,8 +14,12 @@ export default class MainCreaterCharts {
         this.#data = data
         this.#timelineEditor = new TimelineEditor(this.#data)
         this.#displayOptions = new DisplayOptions(this.#timelineEditor.getNewData())
-        this.#lineChart = new LineChart(this.#displayOptions.getDisplayOptions(), this.#canvasId)
+        this.#getLineChart()
     }
 
-    
+    #getLineChart() {
+        return new LineChart(this.#displayOptions.getDisplayOptions(), this.#canvasId)
+    }
+
+
 }
