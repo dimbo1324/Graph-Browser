@@ -19,4 +19,6 @@ export class MainCreaterCharts {
     #getLineChart() {
         return new LineChart(this.#displayOptions.getDisplayOptions(), this.#canvasId);
     }
+
+
 }

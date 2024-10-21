@@ -1,5 +1,4 @@
 import { MainCreaterCharts } from "./charts/MainCreaterCharts.js";
-import { ResetZoom } from "./zoom/ResetZoom.js";
 
 
 const data = [
@@ -9,5 +8,4 @@ const data = [
 ]
 
 
-
-new ResetZoom(new MainCreaterCharts(data))
+new MainCreaterCharts(data)

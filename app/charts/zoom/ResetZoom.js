@@ -16,7 +16,6 @@ export class ResetZoom {
 
     #init() {
         if (this.#button) {
-            console.log(this.#button);
 
             this.#button.addEventListener("click", this.#reset.bind(this));
         } else {
