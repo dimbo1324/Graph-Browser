@@ -22,11 +22,11 @@ export const lineChart = new Chart(ctx, {
     responsive: true,
     scales: {
       x: {
-        type: "time", // Устанавливаем тип оси как "time"
+        type: "time",
         time: {
-          unit: "second", // Настраиваем минимальную единицу времени, можно также использовать 'millisecond'
+          unit: "second",
           displayFormats: {
-            second: "MMM dd, HH:mm:ss.SSS", // Настраиваем формат отображения времени
+            second: "MMM dd, HH:mm:ss.SSS",
           },
         },
         title: {
@@ -45,23 +45,22 @@ export const lineChart = new Chart(ctx, {
       zoom: {
         zoom: {
           wheel: {
-            enabled: true, // Включаем зум с колесиком мыши
+            enabled: true,
           },
           pinch: {
-            enabled: true, // Включаем зум на мобильных устройствах
+            enabled: true,
           },
-          mode: "x", // Зуммирование только по оси X (время)
+          mode: "x",
         },
         pan: {
           enabled: true,
-          mode: "x", // Панорамирование только по оси X
+          mode: "x",
         },
       },
     },
   },
 })
 
-// Добавляем обработчик события для кнопки сброса зума
 document.getElementById("resetZoom").addEventListener("click", function () {
-  lineChart.resetZoom() // Сбрасывает зум
+  lineChart.resetZoom()
 })
