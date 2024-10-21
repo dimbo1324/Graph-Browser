@@ -1,245 +1,150 @@
-* {
-    padding: 0;
+Для того чтобы стили не мешали функциональности графика, вот пример CSS с нуля, который обеспечивает правильное отображение и взаимодействие с элементами:
+
+```css
+/* Общий контейнер для всей страницы */
+body, html {
     margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: Arial, sans-serif;
     box-sizing: border-box;
-    font-family: "Arial Rounded MT Bold", sans-serif;
 }
 
-body {
-    font-family: "Arial Rounded MT Bold", sans-serif;
-    height: 100vh;
-    overflow: hidden;
-    /* Убираем прокрутку на странице */
-}
-
+/* Контейнер для всего содержимого */
 .container {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    grid-template-rows: 60px 1fr;
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
 }
 
+/* Верхняя панель */
 .topbar {
-    grid-column: 1 / -1;
-    background-color: #d0d6da;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08);
-    height: 60px;
-    padding: 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 10px 20px;
+    background-color: #005bbb;
+    color: white;
 }
 
+/* Лого */
 .logo h2 {
-    color: #161a1f;
-    font-size: 1.5rem;
-}
-
-.user {
-    display: flex;
-    align-items: center;
-}
-
-.user img {
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-/* Main content */
-.main {
-    padding: 20px;
-    overflow-y: auto;
-    /* Добавляем прокрутку, если контент выходит за рамки */
-    height: calc(100vh - 60px);
-    /* Контентная часть должна занимать всю высоту */
-}
-
-.charts {
-    margin-top: 20px;
-    display: flex;
-    /* Используем Flexbox для размещения */
-    gap: 15px;
-    /* Расстояние между элементами */
-    height: 100%;
-    /* Полная высота для графиков */
-}
-
-.chart {
-    background: #ededee;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
-    flex: 7;
-    /* 70% ширины для графика */
-    overflow-y: auto;
-    /* Прокрутка, если контент слишком большой */
-}
-
-.manage-panel {
-    background: #d0d6da;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
-    flex: 3;
-    /* 30% ширины для панели управления */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    /* Выравниваем элементы в панели по началу */
-}
-
-.manage-panel h2 {
-    text-align: center;
-    font-size: 18px;
-    color: #29323b;
-}
-
-/* Media Queries */* {
-    padding: 0;
     margin: 0;
-    box-sizing: border-box;
-    font-family: "Arial Rounded MT Bold", sans-serif;
-}
-
-body {
-    font-family: "Arial Rounded MT Bold", sans-serif;
-    height: 100vh;
-    overflow: hidden;
-    /* Убираем прокрутку на странице */
-}
-
-.container {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    grid-template-rows: 60px 1fr;
-    height: 100vh;
-}
-
-.topbar {
-    grid-column: 1 / -1;
-    background-color: #d0d6da;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08);
-    height: 60px;
-    padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo h2 {
-    color: #161a1f;
     font-size: 1.5rem;
 }
 
-.user {
-    display: flex;
-    align-items: center;
-}
-
+/* Панель пользователя */
 .user img {
-    height: 40px;
-    width: 40px;
+    height: 50px;
     border-radius: 50%;
-    object-fit: cover;
 }
 
-/* Main content */
-.main {
-    padding: 20px;
-    overflow-y: auto;
-    /* Добавляем прокрутку, если контент выходит за рамки */
-    height: calc(100vh - 60px);
-    /* Контентная часть должна занимать всю высоту */
-}
-
-.charts {
-    margin-top: 20px;
+/* Контейнер для основного содержимого */
+.main-content {
     display: flex;
-    /* Используем Flexbox для размещения */
-    gap: 15px;
-    /* Расстояние между элементами */
-    height: 100%;
-    /* Полная высота для графиков */
+    flex: 1;
+    padding: 20px;
+    background-color: #f4f4f9;
 }
 
+/* Стиль для графика */
 .chart {
-    background: #ededee;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
-    flex: 7;
-    /* 70% ширины для графика */
-    overflow-y: auto;
-    /* Прокрутка, если контент слишком большой */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 3;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
 }
 
+.chart h2 {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+/* Настройки для canvas графика */
+canvas {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* Панель управления */
 .manage-panel {
-    background: #d0d6da;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
-    flex: 3;
-    /* 30% ширины для панели управления */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    /* Выравниваем элементы в панели по началу */
+    align-items: center;
+    flex: 1;
+    padding: 20px;
+    margin-left: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.manage-panel h2 {
-    text-align: center;
-    font-size: 18px;
-    color: #29323b;
+/* Элементы управления */
+input[type="file"],
+button {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: none;
+    background-color: #005bbb;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
 }
 
-/* Media Queries */
-@media (max-width: 1200px) {
-    .container {
-        grid-template-columns: 180px 1fr;
-    }
-
-    .main {
-        padding: 10px;
-    }
+button:hover {
+    background-color: #003f7f;
 }
 
-@media (max-width: 880px) {
-    .main {
-        margin-left: 0;
-        width: 100%;
-        padding: 10px;
-    }
+.reset-zoom {
+    background-color: #d9534f;
 }
 
-@media (max-width: 500px) {
-    .topbar {
-        flex-direction: column;
-        gap: 10px;
-    }
-}
-@media (max-width: 1200px) {
-    .container {
-        grid-template-columns: 180px 1fr;
-    }
-
-    .main {
-        padding: 10px;
-    }
+.reset-zoom:hover {
+    background-color: #c9302c;
 }
 
-@media (max-width: 880px) {
-    .main {
-        margin-left: 0;
-        width: 100%;
-        padding: 10px;
-    }
+/* Вывод JSON данных */
+pre {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    width: 100%;
+    overflow: auto;
 }
 
-@media (max-width: 500px) {
-    .topbar {
-        flex-direction: column;
-        gap: 10px;
-    }
+a {
+    margin-top: 10px;
+    color: #005bbb;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
 }
+
+a:hover {
+    text-decoration: underline;
+}
+```
+
+### Описание ключевых моментов:
+1. **Основная структура** — использую `flexbox` для расположения элементов страницы, чтобы панель управления и график не накладывались друг на друга.
+2. **График** — `canvas` настроен на автоматическое масштабирование с соблюдением всех размеров (`max-width: 100%; max-height: 100%;`).
+3. **Панель управления** — размещается рядом с графиком, с использованием `flex-direction: column`, чтобы элементы управления (кнопки и поля) располагались вертикально.
+4. **Кнопки и взаимодействие** — стилизованы с понятными состояниями hover, чтобы обеспечить интерактивность.
+
+Теперь график будет корректно работать с методами и возможностями библиотеки Chart.js, включая масштабирование и перемещение.
