@@ -1,20 +1,26 @@
-export default class LineChart {
-    #ctx
-    #canvasId
-    #displayOptions
+export class LineChart {
+    #ctx;
+    #canvasId;
+    #displayOptions;
+    chartInstance;
+
     constructor(displayOptions, canvasId) {
-        this.#canvasId = canvasId
-        this.#displayOptions = displayOptions
-        this.#ctx = document.getElementById(this.#canvasId)
+        this.#canvasId = canvasId;
+        this.#displayOptions = displayOptions;
+        this.#ctx = document.getElementById(this.#canvasId);
+
+        if (!this.#ctx) {
+            throw new Error(`Canvas with id "${this.#canvasId}" not found.`);
+        }
+
+        this.#initChart();
     }
 
     #initChart() {
-        return new Chart(this.#ctx, this.#displayOptions)
+        this.chartInstance = new Chart(this.#ctx, this.#displayOptions);
     }
 
-    getInitChart() {
-        return this.#initChart()
+    getChartInstance() {
+        return this.chartInstance;
     }
 }
-
-

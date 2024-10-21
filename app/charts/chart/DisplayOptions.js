@@ -1,9 +1,9 @@
+export class DisplayOptions {
+    #timeline;
+    #displayOptions;
 
-export default class DisplayOptions {
-    #timeline
-    #displayOptions
     constructor(timeline) {
-        this.#timeline = timeline
+        this.#timeline = timeline;
         this.#displayOptions = {
             type: "line",
             data: {
@@ -14,7 +14,7 @@ export default class DisplayOptions {
                     borderWidth: 2,
                     fill: false,
                     tension: 0.1,
-                },],
+                }],
             },
             options: {
                 responsive: true,
@@ -55,13 +55,10 @@ export default class DisplayOptions {
                                 enabled: true,
                             },
                             mode: "x",
-                            onZoom: ({
-                                chart
-                            }) => {
+                            onZoom: ({ chart }) => {
                                 const min = chart.scales.x.min;
                                 const max = chart.scales.x.max;
                                 const range = max - min;
-
 
                                 if (range <= 1000 * 60) {
                                     chart.scales.x.options.time.unit = "second";
@@ -82,11 +79,10 @@ export default class DisplayOptions {
                     },
                 },
             },
-        }
+        };
     }
 
     getDisplayOptions() {
-        return this.#displayOptions
+        return this.#displayOptions;
     }
-
 }
