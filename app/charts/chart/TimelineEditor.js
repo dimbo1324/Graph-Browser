@@ -1,7 +1,9 @@
 export default class TimelineEditor {
     #data
-    constructor(data) {
+    #canvasId
+    constructor(data, canvasId) {
         this.#data = data
+        this.#canvasId = canvasId
     }
     #edit() {
         return this.#data.map((point) => {

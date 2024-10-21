@@ -2,7 +2,7 @@ export default class LineChart {
     #ctx
     #canvasId
     #displayOptions
-    constructor(displayOptions, canvasId = "line-chart") {
+    constructor(displayOptions, canvasId) {
         this.#canvasId = canvasId
         this.#displayOptions = displayOptions
         this.#ctx = document.getElementById(this.#canvasId)
