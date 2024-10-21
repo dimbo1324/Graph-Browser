@@ -1,20 +1,29 @@
 export class DisplayOptions {
     #timeline;
-    #displayOptions;
-
+    #displayOptions
     constructor(timeline) {
         this.#timeline = timeline;
         this.#displayOptions = {
             type: "line",
             data: {
-                datasets: [{
-                    label: "Данные от времени",
-                    data: this.#timeline,
-                    borderColor: "rgb(3,3,30)",
-                    borderWidth: 2,
-                    fill: false,
-                    tension: 0.1,
-                }],
+                datasets: [
+                    {
+                        label: "График 1",
+                        data: this.#timeline.data1,
+                        borderColor: "rgb(3,3,30)",
+                        borderWidth: 0.5,
+                        fill: false,
+                        tension: 0.1,
+                    },
+                    {
+                        label: "График 2",
+                        data: this.#timeline.data2,
+                        borderColor: "rgb(234,3,30)",
+                        borderWidth: 0.5,
+                        fill: false,
+                        tension: 0.1,
+                    }
+                ]
             },
             options: {
                 responsive: true,

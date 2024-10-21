@@ -1,11 +1,15 @@
 import { MainCreaterCharts } from "./charts/MainCreaterCharts.js";
+import { ConvertToJSON } from "./convertor/main.js";
+
+document.addEventListener('DOMContentLoaded', () => {
+    const converter = new ConvertToJSON('upload', 'output', 'downloadSheet1', 'downloadSheet2');
+
+    document.getElementById('processFileButton').addEventListener('click', () => {
+        converter.processFile((data1, data2) => {
+
+            new MainCreaterCharts(data1, data2)
 
 
-const data = [
-    { x: "2024-07-31T21:01:00.719Z", y: 10520 },
-    { x: "2024-08-01T02:11:59.738Z", y: 10519 },
-    { x: "2024-08-01T02:12:05.142Z", y: 10520 },
-]
-
-
-new MainCreaterCharts(data)
+        });
+    });
+});

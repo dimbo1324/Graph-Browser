@@ -5,13 +5,17 @@ import { DisplayOptions } from "./chart/DisplayOptions.js";
 export class MainCreaterCharts {
     #timelineEditor;
     #displayOptions;
-    #data;
+    #data1;
+    #data2;
     #canvasId;
 
-    constructor(data, canvasId = "line-chart") {
+    constructor(data1, data2, canvasId = "line-chart") {
         this.#canvasId = canvasId;
-        this.#data = data;
-        this.#timelineEditor = new TimelineEditor(this.#data, this.#canvasId);
+        this.#data1 = data1;
+        this.#data2 = data2;
+        this.#timelineEditor = new TimelineEditor(this.#data1, this.#data2, this.#canvasId);
+        console.log(this.#timelineEditor);
+
         this.#displayOptions = new DisplayOptions(this.#timelineEditor.getNewData());
         this.#getLineChart();
     }
@@ -19,6 +23,4 @@ export class MainCreaterCharts {
     #getLineChart() {
         return new LineChart(this.#displayOptions.getDisplayOptions(), this.#canvasId);
     }
-
-
 }

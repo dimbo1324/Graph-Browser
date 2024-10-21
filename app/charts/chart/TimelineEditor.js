@@ -1,14 +1,16 @@
 export class TimelineEditor {
-    #data;
+    #data1;
+    #data2;
     #canvasId;
 
-    constructor(data, canvasId) {
-        this.#data = data;
+    constructor(data1, data2, canvasId) {
+        this.#data1 = data1;
+        this.#data2 = data2;
         this.#canvasId = canvasId;
     }
 
-    #edit() {
-        return this.#data.map((point) => {
+    #editData(data) {
+        return data.map((point) => {
             const roundedTime = new Date(Math.round(new Date(point.x).getTime() / 1000) * 1000);
             return {
                 x: roundedTime,
@@ -18,6 +20,8 @@ export class TimelineEditor {
     }
 
     getNewData() {
-        return this.#edit();
+        const editedData1 = this.#editData(this.#data1);
+        const editedData2 = this.#editData(this.#data2);
+        return { data1: editedData1, data2: editedData2 };
     }
 }

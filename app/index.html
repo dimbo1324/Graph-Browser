@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="index.css" />
-        <link
-            rel="stylesheet"
+        <link rel="stylesheet"
             href="https://pro.fontawesome.com/releases/v5.8.2/css/all.css"
             integrity="sha384-xVVam1KS4+Qt2OrFa+VdRUoXygyKIuNWUUUBZYv+n27STsJ7oDOHJgfF0bNKLMJF"
             crossorigin="anonymous" />
         <title>Chart</title>
     </head>
+
     <body>
         <div class="container">
             <div class="topbar">
@@ -52,35 +53,6 @@
                 </ul>
             </div>
             <div class="main">
-                <!-- <div class="cards">
-            <div class="card">
-                <div class="card-content">
-                    <div class="number">Проект 1</div>
-                    <div class="card-name">Тренды</div>
-                </div>
-                <div class="icon-box">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-content">
-                    <div class="number">Проект 2</div>
-                    <div class="card-name">База данных</div>
-                </div>
-                <div class="icon-box">
-                    <i class="fas fa-database"></i>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-content">
-                    <div class="number">Проект 3</div>
-                    <div class="card-name">НПС-13</div>
-                </div>
-                <div class="icon-box">
-                    <i class="fas fa-industry"></i>
-                </div>
-            </div>
-        </div> -->
                 <div class="charts">
                     <div class="chart">
                         <h2>График...</h2>
@@ -89,6 +61,20 @@
                     <div class="manage-panel">
                         <h2>Управление</h2>
                         <button class="reset-zoom">Сбросить зум</button>
+                        <input type="file" id="upload" accept=".xlsx, .xls"
+                            aria-label="Загрузите файл Excel">
+
+                        <button id="processFileButton">Конвертировать в
+                            JSON</button>
+
+                        <pre id="output"></pre>
+
+                        <a id="downloadSheet1" style="display:none;"
+                            download="sheet1_data.json">Скачать данные первого
+                            листа</a>
+                        <a id="downloadSheet2" style="display:none;"
+                            download="sheet2_data.json">Скачать данные второго
+                            листа</a>
                     </div>
                 </div>
             </div>
@@ -102,7 +88,9 @@
         <script
             src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0"></script>
 
-        <!-- Ваш скрипт -->
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
         <script src="index.js" type="module"></script>
     </body>
+
 </html>
