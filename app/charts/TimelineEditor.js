@@ -3,8 +3,7 @@ export default class TimelineEditor {
     constructor(data) {
         this.#data = data
     }
-
-    edit() {
+    #edit() {
         return this.#data.map((point) => {
             const roundedTime = new Date(Math.round(new Date(point.x).getTime() / 1000) * 1000);
             return {
@@ -12,5 +11,9 @@ export default class TimelineEditor {
                 y: point.y
             };
         });
+    }
+
+    getNewData() {
+        return this.#edit()
     }
 }

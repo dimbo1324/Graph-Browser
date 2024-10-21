@@ -1,13 +1,20 @@
-import TimelineEditor from './TimelineEditor.js';
+export default class LineChart {
+    #ctx
+    #canvasId
+    #displayOptions
+    constructor(displayOptions, canvasId = "line-chart") {
+        this.#canvasId = canvasId
+        this.#displayOptions = displayOptions
+        this.#ctx = document.getElementById(this.#canvasId)
+    }
 
-const timelineEditor = new TimelineEditor(data)
+    #initChart() {
+        return new Chart(this.#ctx, this.#displayOptions)
+    }
+
+    getInitChart() {
+        return this.#initChart()
+    }
+}
 
 
-// const ctx = document.getElementById("line-chart")
-
-// export const lineChart = new Chart(ctx, displayOptions);
-
-
-// document.getElementById("resetZoom").addEventListener("click", function () {
-//   lineChart.resetZoom()
-// })
